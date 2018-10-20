@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">AirTickets</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">AirTickets</string>
+    <string name="nav_header_subtitle">air.tickets@qualo.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="log_in">ВОЙТИ</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">У вас ещё нет аккаунта? Создать</string>
+    <string name="login_error">Неправильный email или пароль</string>
+    <string name="username">Username</string>
+    <string name="name">Имя</string>ф
+    <string name="second_name">Фамилия</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="sign_in_button">Зарегистрироваться</string>
+    <string name="exit">Выйти</string>
+    <string name="online_error">Отсутствует подключение к интернету</string>
+    <string name="bookButton">Заказать</string>
+    <string name="best_price">Лучшая цена</string>
+    <string name="in_travel">В пути</string>
+    <string name="destination">Прилет</string>
+    <string name="departure">Вылет</string>
+    <string name="company">Перевозчик</string>
+    <string name="basket">Корзина</string>
+    <string name="profile">Профиль</string>
+    <string name="settings">Настройки</string>
+    <string name="sort">Сортировка</string>
+    <string name="cancelBook">Отменить</string>
+
+</resources>
