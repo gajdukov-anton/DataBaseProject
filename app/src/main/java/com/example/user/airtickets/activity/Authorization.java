@@ -52,7 +52,7 @@ public class Authorization extends AppCompatActivity {
     }
 
     public void startSigInActivity(View view) {
-        Intent intent = new Intent(this, SigIn.class);
+        Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
     }
 

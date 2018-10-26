@@ -1,6 +1,7 @@
 package com.example.user.airtickets.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SigIn extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     Calendar dateAndTime = Calendar.getInstance();
     TextView currentDateTime;
@@ -30,7 +31,7 @@ public class SigIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sig_in);
+        setContentView(R.layout.activity_registration);
     }
 
     public void sigIn(View view) {
@@ -39,20 +40,22 @@ public class SigIn extends AppCompatActivity {
             if (isOnline()) {
                 NewUser newUser = new NewUser();
                 EditText editText = (EditText) findViewById(R.id.nameEditText);
-                newUser.name = editText.getText().toString();
+                newUser.setName(editText.getText().toString());
                 editText = (EditText) findViewById(R.id.secondNameEditText);
-                newUser.second_name = editText.getText().toString();
+                newUser.setSecond_name(editText.getText().toString());
                 editText = (EditText) findViewById(R.id.newEmailEditText);
-                newUser.login = editText.getText().toString();
+                newUser.setLogin(editText.getText().toString());
                 editText = (EditText) findViewById(R.id.newPasswordEditText);
-                newUser.password = editText.getText().toString();
+                newUser.setPassword(editText.getText().toString());
                 editText = (EditText) findViewById(R.id.dateOfBirthEditText);
-                newUser.date_of_birth = editText.getText().toString();
+                newUser.setDate_of_birth(editText.getText().toString());
+                editText = (EditText) findViewById(R.id.sexEditText);
+                newUser.setSex(editText.getText().toString());
                 //postNewUserToServer(newUser);
-                finish();
+                finish(); //не забыть убрать
             } else {
                 isPassed = false;
-                Toast.makeText(SigIn.this, getResources().getString(R.string.online_error), Snackbar.LENGTH_LONG).show();
+                Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.online_error), Snackbar.LENGTH_LONG).show();
             }
 
         }
@@ -66,11 +69,11 @@ public class SigIn extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ResponseFromServer info = response.body();
                     if (info != null) {
-                        Toast.makeText(SigIn.this, info.status, Snackbar.LENGTH_LONG).show();
-                        loadAuthorization(info.status);
+                        Toast.makeText(RegistrationActivity.this, info.status, Snackbar.LENGTH_LONG).show();
+                        loadAuthorizationActivity(info.status);
                     }
                 } else {
-                    Toast.makeText(SigIn.this, "Impossible to connect to server", Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(RegistrationActivity.this, "Impossible to connect to server", Snackbar.LENGTH_LONG).show();
                 }
                 isPassed = false;
             }
@@ -82,9 +85,11 @@ public class SigIn extends AppCompatActivity {
         });
     }
 
-    private void loadAuthorization(String info) {
+    private void loadAuthorizationActivity(String info) {
         if(info.equals("ok")) {
-
+            Intent intent = new Intent(this, Authorization.class);
+            startActivity(intent);
+            this.finish();
         }
 
     }

@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBackground"
-    tools:context=".activity.SigIn">
+    tools:context=".activity.RegistrationActivity">
 
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="50dp"
         android:backgroundTint="@color/colorWhite"
-        android:textColor="@color/colorWhite"
-        android:inputType="text"
         android:hint="@string/name"
 
-        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="text"
+        android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="150dp"/>
+        android:layout_marginStart="10dp"/>
 
     <EditText
         android:id="@+id/secondNameEditText"
@@ -82,6 +82,21 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"/>
 
+    <EditText
+        android:id="@+id/sexEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorWhite"
+        android:textColor="@color/colorWhite"
+        android:inputType="date"
+        android:hint="@string/sex"
+
+        app:layout_constraintTop_toBottomOf="@id/dateOfBirthEditText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"/>
+
     <Button
         android:id="@+id/SigInButton"
         android:layout_width="match_parent"
@@ -95,7 +110,7 @@
 
         android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateOfBirthEditText" />
+        app:layout_constraintTop_toBottomOf="@id/sexEditText" />
 
 
 

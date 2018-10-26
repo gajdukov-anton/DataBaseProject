@@ -29,5 +29,6 @@
     <string name="settings">Настройки</string>
     <string name="sort">Сортировка</string>
     <string name="cancelBook">Отменить</string>
+    <string name="sex">Пол</string>
 
 </resources>
