@@ -16,32 +16,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.airtickets.api.ServerApi;
 import com.example.user.airtickets.fragment.BookingDialogFragment;
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.api.ServerApi;
-import com.example.user.airtickets.adapter.TicketAdapter;
+import com.example.user.airtickets.api.Api;
+import com.example.user.airtickets.adapter.FlightAdapter;
 import com.example.user.airtickets.object.Flight;
 import com.example.user.airtickets.object.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BookingDialogFragment.BookingDialogListener {
-    static public ServerApi serverApi;
-    static private Retrofit retrofit;
+
     private List<Flight> flights = new ArrayList<>();
     private ArrayList<Ticket> tickets = new ArrayList<>();
     private TextView amountTicketInBooking;
-    private int choosenFlight;
-
+    static final String AGE_KEY = "AGE";
+    static final String ACCESS_MESSAGE = "ACCESS_MESSAGE";
+    private static final int REQUEST_ACCESS_TYPE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,30 +56,43 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setInitData();
+        //setInitData();
+        createRecyclerViewWithFlights();
+        //createRecyclerViewWithFlights();
+
+        amountTicketInBooking = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.nav_camera));
+        initializeAmountTicketInBooking();
+    }
+
+    private void createRecyclerViewWithFlights() {
+        ServerApi serverApi = ServerApi.getInstance();
+        ServerApi.DownloadFlightsListener listener = new ServerApi.DownloadFlightsListener() {
+            @Override
+            public void onDownloadedFlights(List<Flight> flights) {
+                createRecyclerView(flights);
+            }
+        };
+        serverApi.setDownloadFlightsListener(listener);
+        serverApi.downloadFlights(this);
+    }
+
+    private void createRecyclerView(final List<Flight> flights) {
+        this.flights = flights;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
 
-        TicketAdapter adapter = new TicketAdapter(this, flights, null);
-        TicketAdapter.Callback adapterListener = new TicketAdapter.Callback() {
+        FlightAdapter adapter = new FlightAdapter(this, flights, null);
+        FlightAdapter.Callback adapterListener = new FlightAdapter.Callback() {
             @Override
-            public void onButtonClick(int position) {
-                createDialogFragment(position);
-            }
-
-            @Override
-            public void onRemoveItem(int position) {
-                // Some actions.
+            public void onMoreButtonClick(int flightId, int positionInList) {
+                loadFlightActivity(flightId, flights.get(positionInList));
             }
         };
 
         adapter.setCallback(adapterListener);
         recyclerView.setAdapter(adapter);
-
-        amountTicketInBooking = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
-                findItem(R.id.nav_camera));
-        initializeAmountTicketInBooking();
     }
 
     private void initializeAmountTicketInBooking() {
@@ -90,7 +100,6 @@ public class MainActivity extends AppCompatActivity
         amountTicketInBooking.setTypeface(null, Typeface.BOLD);
         amountTicketInBooking.setTextColor(getResources().getColor(R.color.colorAccent));
         amountTicketInBooking.setText("0");
-
     }
 
     private void updateAmountTicketInBooking(int amount) {
@@ -99,11 +108,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        EditText dialogName = dialog.getDialog().findViewById(R.id.dialog_name);
-        EditText dialogSecondName = dialog.getDialog().findViewById(R.id.dialog_second_name);
-        Toast.makeText(this, dialogName.getText().toString(), Toast.LENGTH_SHORT).show();
-        tickets.add(new Ticket(dialogName.getText().toString(), dialogSecondName.getText().toString(), flights.get(choosenFlight)));
-        updateAmountTicketInBooking(tickets.size());
+
     }
 
 
@@ -111,18 +116,18 @@ public class MainActivity extends AppCompatActivity
     public void onDialogNegativeClick(DialogFragment dialog) {
     }
 
-    public void createDialogFragment(int position) {
-        this.choosenFlight = position;
-        BookingDialogFragment dialog = new BookingDialogFragment();
-        dialog.show(getSupportFragmentManager(), "custom");
-    }
 
-    public static void connectToServer() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://pure-taiga-64408.herokuapp.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        serverApi = retrofit.create(ServerApi.class);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ACCESS_TYPE) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<Ticket> tempArray = data.getParcelableArrayListExtra(ACCESS_MESSAGE);
+                tickets.addAll(tempArray);
+                updateAmountTicketInBooking(tickets.size());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void setInitData() {
@@ -176,6 +181,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void loadFlightActivity(int flightId, Flight flight) {
+        Intent intent = new Intent(this, FlightActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("flight", flight);
+        intent.putExtras(bundle);
+        intent.putExtra("idFlight", flightId);
+        startActivityForResult(intent, REQUEST_ACCESS_TYPE);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -183,7 +197,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             loadBookingActivity();
-            // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -200,5 +213,4 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

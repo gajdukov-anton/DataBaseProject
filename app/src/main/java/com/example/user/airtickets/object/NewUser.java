@@ -2,19 +2,37 @@ package com.example.user.airtickets.object;
 
 public class NewUser {
 
-    public  NewUser() {
+    public NewUser() {
 
     }
 
     private String login;
     private String password;
-    private String name;
-    private String second_name;
-    private String date_of_birth;
+    private String firstName;
+    private String lastName;
+    private String dateOfBirth;
     private String sex;
+    private String address = "Paris";
+    private String status = "user";
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean isReadyToUpload() {
+        if (login == null || password == null ||
+                firstName == null || lastName == null ||
+                dateOfBirth == null || sex == null ||
+                address == null || status == null) {
+            return false;
+        }
+        if (login.equals("") || password.equals("") ||
+                firstName.equals("") || lastName.equals("") ||
+                dateOfBirth.equals("") || sex.equals("") ||
+                address.equals("") || status.equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
     public void setLogin(String login) {
@@ -25,24 +43,32 @@ public class NewUser {
         this.password = password;
     }
 
-    public void setDate_of_birth(String date_of_birth) {
-        this.date_of_birth = date_of_birth;
+    public void setDateOfBirth(String date_of_birth) {
+        this.dateOfBirth = date_of_birth;
     }
 
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
+    public void setSecondName(String second_name) {
+        this.lastName = second_name;
     }
 
     public void setSex(String sex) {
         this.sex = sex;
     }
 
-    public String getName() {
-        return name;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getSecond_name() {
-        return second_name;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getSecondName() {
+        return lastName;
     }
 
     public String getLogin() {
@@ -53,11 +79,19 @@ public class NewUser {
         return password;
     }
 
-    public String getDate_of_birth() {
-        return date_of_birth;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public String getSex() {
         return sex;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

@@ -13,12 +13,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
+import com.example.user.airtickets.api.ServerApi;
 import com.example.user.airtickets.object.ResponseFromServer;
 import com.example.user.airtickets.object.User;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Authorization extends AppCompatActivity {
     private final static String TAG = "Authorization";
@@ -28,7 +25,6 @@ public class Authorization extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
-        MainActivity.connectToServer();
     }
 
     public void startMainActivity(View view) {
@@ -36,8 +32,9 @@ public class Authorization extends AppCompatActivity {
             isPassed = true;
             EditText emailEditText = (EditText) findViewById(R.id.emailEditText);
             EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+            User user = new User(emailEditText.getText().toString(), passwordEditText.getText().toString());
             if (isOnline()) {
-                authenticateUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                authenticateUser(user);
             } else {
                 isPassed = false;
                 Toast.makeText(Authorization.this, getResources().getString(R.string.online_error), Snackbar.LENGTH_LONG).show();
@@ -56,31 +53,17 @@ public class Authorization extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void authenticateUser(String login, String password) {
-        final User user = new User();
-        user.login = login;
-        user.password = password;
-        Call<ResponseFromServer> call = MainActivity.serverApi.postBook(user);
-        call.enqueue(new Callback<ResponseFromServer>() {
+    private void authenticateUser(User user) {
+        ServerApi serverApi = ServerApi.getInstance();
+        ServerApi.AuthorizationListener listener = new ServerApi.AuthorizationListener() {
             @Override
-            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
-                if (response.isSuccessful()) {
-                    ResponseFromServer info = response.body();
-                    if (info != null) {
-                        loadMainActivity(info.status);
-                        Toast.makeText(Authorization.this,  info.status, Snackbar.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(Authorization.this, "Impossible to connect to server" + user.login, Snackbar.LENGTH_LONG).show();
-                }
+            public void onAuthenticatedUser(ResponseFromServer responseFromServer) {
+                loadMainActivity(responseFromServer.status);
                 isPassed = false;
             }
-
-            @Override
-            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
-                isPassed = false;
-            }
-        });
+        };
+        serverApi.setAuthorizationListener(listener);
+        serverApi.uploadUserDataToServer(user, this);
     }
     
     private void loadMainActivity(String userType) {

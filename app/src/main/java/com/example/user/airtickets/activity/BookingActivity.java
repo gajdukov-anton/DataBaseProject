@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.adapter.BookingAdapter;
-import com.example.user.airtickets.adapter.TicketAdapter;
 import com.example.user.airtickets.object.Ticket;
 
 
@@ -47,8 +44,9 @@ public class BookingActivity extends AppCompatActivity {
         BookingAdapter adapter = new BookingAdapter(this, tickets, null);
         BookingAdapter.Callback adapterListener = new BookingAdapter.Callback() {
             @Override
-            public void onButtonClick() {
-               //show();
+            public void onButtonRemoveClick(int position) {
+               tickets.remove(position);
+               createRecyclerView();
             }
 
             @Override

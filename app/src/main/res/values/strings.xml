@@ -18,8 +18,9 @@
     <string name="sign_in_button">Зарегистрироваться</string>
     <string name="exit">Выйти</string>
     <string name="online_error">Отсутствует подключение к интернету</string>
+    <string name="server_unavailable">Не удалось подключиться к серверу</string>
     <string name="bookButton">Заказать</string>
-    <string name="best_price">Лучшая цена</string>
+    <string name="best_price">Стоимость</string>
     <string name="in_travel">В пути</string>
     <string name="destination">Прилет</string>
     <string name="departure">Вылет</string>
@@ -30,5 +31,8 @@
     <string name="sort">Сортировка</string>
     <string name="cancelBook">Отменить</string>
     <string name="sex">Пол</string>
+    <string name="classTicket">Класс</string>
+    <string name="numberTicket">Номер места</string>
+    <string name="moreButton">Подробнее</string>
 
 </resources>

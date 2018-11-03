@@ -5,29 +5,36 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.Toast;
 
-public class Ticket extends Flight  implements Parcelable {
+public class Ticket  implements Parcelable {
+    private String userName;
+    private String userSecondName;
     private String name;
-    private String secondName;
+    private int idTicket;
+    private String classDescription;
+    private String ticketDescription;
+    private int numberTicket;
+    private double price;
+    private String classTicket;
+    private String pointOfDeparture = "";
+    private String pointOfDestination = "";
 
 
 
     public Ticket(String name, String secondName) {
-        this.name = name;
-        this.secondName = secondName;
+        this.userName = name;
+        this.userSecondName = secondName;
     }
 
+    public Ticket(int numberTicket, double price, String classTicket) {
+        this.numberTicket = numberTicket;
+        this.price = price;
+        this.classTicket = classTicket;
+    }
 
     public Ticket(String name, String secondName, Flight flight) {
-        this.name = name;
-        this.secondName = secondName;
-        this.price = flight.price;
-        this.timeInTravel = flight.timeInTravel;
-        this.time_of_destination = flight.time_of_destination;
-        this.time_of_departure = flight.time_of_departure;
-        this.point_of_destination = flight.point_of_destination;
-        this.point_of_departure = flight.point_of_departure;
-        this.name_of_company = flight.name_of_company;
-        this.image = flight.image;
+        this.userName = name;
+        this.userSecondName = secondName;
+
     }
 
     @Override
@@ -38,18 +45,17 @@ public class Ticket extends Flight  implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         Bundle bundle = new Bundle();
+        bundle.putString("userName", userName);
+        bundle.putString("userSecondName", userSecondName);
         bundle.putString("name", name);
-        bundle.putString("secondName", secondName);
-        bundle.putInt("image", image);
-        bundle.putString("name_of_company", name_of_company);
-        bundle.putString("point_of_departure", point_of_departure);
-        bundle.putString("point_of_destination", point_of_destination);
-        bundle.putString("time_of_departure", time_of_departure);
-        bundle.putString("time_of_destination", time_of_destination);
-        bundle.putString("timeInTravel", timeInTravel);
+        bundle.putInt("idTicket", idTicket);
+        bundle.putString("classDescription", classDescription);
+        bundle.putString("ticketDescription", ticketDescription);
+        bundle.putInt("numberTicket", numberTicket);
         bundle.putDouble("price", price);
-
-        //bundle.putParcelable("flight", flight);
+        bundle.putString("classTicket", classTicket);
+        bundle.putString("pointOfDeparture", pointOfDeparture);
+        bundle.putString("pointOfDestination", pointOfDestination);
         parcel.writeBundle(bundle);
     }
 
@@ -65,43 +71,104 @@ public class Ticket extends Flight  implements Parcelable {
 
     public Ticket(Parcel parcel) {
         Bundle bundle = parcel.readBundle();
+        this.userName = bundle.getString("userName");
+        this.userSecondName = bundle.getString("userSecondName");
         this.name = bundle.getString("name");
-        this.secondName = bundle.getString("secondName");
-//        setImage(bundle.getInt("image"));
-//        setName_of_company(bundle.getString("name_of_company"));
-//        setPoint_of_departure(bundle.getString("point_of_departure"));
-//        setPoint_of_destination(bundle.getString("point_of_destination"));
-//        setTime_of_departure(bundle.getString("time_of_departure"));
-//        setTime_of_destination("time_of_destination");
-//        setTimeInTravel(bundle.getString("timeInTravel"));
-//        setPrice(bundle.getDouble("price"));
-
-
-        this.image = bundle.getInt("image");
-        this.name_of_company = bundle.getString("name_of_company");
-        this.point_of_departure = bundle.getString("point_of_departure");
-        this.point_of_destination = bundle.getString("point_of_destination");
-        this.time_of_departure = bundle.getString("time_of_departure");
-        this.time_of_destination = bundle.getString("time_of_destination");
-        this.timeInTravel = bundle.getString("timeInTravel");
+        this.idTicket = bundle.getInt("idTicket");
+        this.classDescription = bundle.getString("classDescription");
+        this.ticketDescription = bundle.getString("ticketDescription");
+        this.numberTicket = bundle.getInt("numberTicket");
         this.price = bundle.getDouble("price");
+        this.classTicket = bundle.getString("classTicket");
+        this.pointOfDeparture = bundle.getString("pointOfDeparture");
+        this.pointOfDestination = bundle.getString("pointOfDestination");
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setClassDescription(String classDescription) {
+        this.classDescription = classDescription;
+    }
+
+    public void setIdTicket(int idTicket) {
+        this.idTicket = idTicket;
+    }
+
+    public void setTicketDescription(String ticketDescription) {
+        this.ticketDescription = ticketDescription;
+    }
+
+    public void setUserName(String name) {
+        this.userName = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setClassTicket(String classTicket) {
+        this.classTicket = classTicket;
+    }
+
+    public void setNumberTicket(int numberTicket) {
+        this.numberTicket = numberTicket;
+    }
+
+    public void setPointOfDeparture(String pointOfDeparture) {
+        this.pointOfDeparture = pointOfDeparture;
+    }
+
+    public void setPointOfDestination(String pointOfDestination) {
+        this.pointOfDestination = pointOfDestination;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getClassTicket() {
+        return classTicket;
+    }
+
+    public int getNumberTicket() {
+        return numberTicket;
+    }
+
+    public void setUserSecondName(String secondName) {
+        this.userSecondName = secondName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserSecondName() {
+        return userSecondName;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public int getIdTicket() {
+        return idTicket;
     }
 
+    public String getClassDescription() {
+        return classDescription;
+    }
 
+    public String getTicketDescription() {
+        return ticketDescription;
+    }
+
+    public String getPointOfDeparture() {
+        return pointOfDeparture;
+    }
+
+    public String getPointOfDestination() {
+        return pointOfDestination;
+    }
 }

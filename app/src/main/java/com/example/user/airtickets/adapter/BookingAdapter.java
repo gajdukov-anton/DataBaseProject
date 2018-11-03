@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.activity.BookingActivity;
-import com.example.user.airtickets.object.Flight;
 import com.example.user.airtickets.object.Ticket;
 
 import java.util.List;
@@ -28,7 +26,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
     }
     
     public interface Callback {
-        void onButtonClick();
+        void onButtonRemoveClick(int position);
         void onRemoveItem(int position);
     }
 
@@ -43,18 +41,18 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(BookingAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(BookingAdapter.ViewHolder holder, final int position) {
         Ticket ticket = tickets.get(position);
-        holder.departureInfoViewCardview.setText(ticket.getPoint_of_departure());
-        holder.destinationInfoViewCardView.setText(ticket.getPoint_of_destination());
-        holder.companyInfoViewCardView.setText(ticket.getName_of_company());
-        holder.inTravelInfoViewCardView.setText(ticket.getTimeInTravel());
-        holder.bestPriceInfoViewCardView.setText(ticket.getStrPrice());
+        holder.departureInfoViewCardview.setText(ticket.getPointOfDeparture());
+        holder.destinationInfoViewCardView.setText(ticket.getPointOfDestination());
+        holder.companyInfoViewCardView.setText(ticket.getClassDescription());
+        holder.inTravelInfoViewCardView.setText(ticket.getTicketDescription());
+        holder.bestPriceInfoViewCardView.setText(String.valueOf(ticket.getPrice()));
         holder.bookButtonCardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (callback != null) {
-                    callback.onButtonClick();
+                    callback.onButtonRemoveClick(position);
                 }
             }
         });
