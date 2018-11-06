@@ -63,6 +63,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 loadAuthorizationActivity(responseFromServer.status);
                 isButtonPassed = false;
             }
+
         };
         serverApi.setRegistrationListener(listener);
         serverApi.uploadNewUserDataToServer(user, this);

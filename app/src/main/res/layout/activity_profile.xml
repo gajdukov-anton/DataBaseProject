@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ProfileActivity">
+
+    <ImageView
+        android:id="@+id/imageProfile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/nameCardviewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageProfile"
+        card_view:cardCornerRadius="4dp"
+
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/nameViewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/secondNameCardviewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameCardviewProfile"
+        card_view:cardCornerRadius="4dp"
+
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/secondNameViewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loginCardviewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/secondNameCardviewProfile"
+        card_view:cardCornerRadius="4dp"
+
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/loginViewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/dateOfBirthCardviewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginCardviewProfile"
+        card_view:cardCornerRadius="4dp"
+
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/dateOfBirthViewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sexCardviewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateOfBirthCardviewProfile"
+        card_view:cardCornerRadius="4dp"
+
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/sexViewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

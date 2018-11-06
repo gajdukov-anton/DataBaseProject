@@ -1,10 +1,8 @@
 package com.example.user.airtickets.api;
 
-import android.content.res.Resources;
 import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
-import com.example.user.airtickets.R;
 import com.example.user.airtickets.activity.Authorization;
 import com.example.user.airtickets.activity.FlightActivity;
 import com.example.user.airtickets.activity.MainActivity;
@@ -13,7 +11,7 @@ import com.example.user.airtickets.object.Flight;
 import com.example.user.airtickets.object.NewUser;
 import com.example.user.airtickets.object.ResponseFromServer;
 import com.example.user.airtickets.object.Ticket;
-import com.example.user.airtickets.object.User;
+import com.example.user.airtickets.object.UserData;
 
 import java.util.List;
 
@@ -45,6 +43,7 @@ public class ServerApi {
 
     public interface AuthorizationListener {
         void onAuthenticatedUser(ResponseFromServer responseFromServer);
+        void onFailure(String response);
     }
 
     public interface DownloadFlightsListener {
@@ -98,7 +97,7 @@ public class ServerApi {
         });
     }
 
-    public void uploadUserDataToServer(final User user, final Authorization authorization) {
+    public void uploadUserDataToServer(final UserData user, final Authorization authorization) {
         Call<ResponseFromServer> call = api.postUserData(user);
         call.enqueue(new Callback<ResponseFromServer>() {
             @Override
@@ -112,7 +111,8 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<ResponseFromServer> call, Throwable t) {
-                Toast.makeText(authorization, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
+                authorizationListener.onFailure("Не удалось соединиться с сервером");
+                //Toast.makeText(authorization, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
             }
         });
     }

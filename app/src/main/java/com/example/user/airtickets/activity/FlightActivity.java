@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
@@ -35,9 +36,10 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         setContentView(R.layout.activity_flight);
 
         getDataFromIntent();
-       // initData();
-        //createRecyclerView();
-        createRecyclerViewWithTickets(idFlight);
+        initData();
+        displayFlightInformation();
+        createRecyclerView();
+        //createRecyclerViewWithTickets(idFlight);
         createBackButton();
     }
 
@@ -50,6 +52,19 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         } catch (NullPointerException e) {
              Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void displayFlightInformation() {
+        setStringToTextView(R.id.pointOfDepartureFlightInformation, "Место отправления: " + flight.getPoint_of_departure());
+        setStringToTextView(R.id.pointOfDestinationFlightInformation, "Место прибытия: " + flight.getPoint_of_destination());
+        setStringToTextView(R.id.airportFlightInformation, "Данные о компании: Компания");
+        setStringToTextView(R.id.timeOfDepartureFlightInformation, "Время отправления: " + flight.getTime_of_departure());
+        setStringToTextView(R.id.timeOfDestinationFlightInformation, "Время прибытия: " + flight.getTime_of_destination());
+    }
+
+    private void setStringToTextView(int id, String value) {
+        TextView textView = (TextView) findViewById(id);
+        textView.setText(value);
     }
 
     private void createBackButton() {
@@ -87,7 +102,7 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
 
-        TicketAdapter adapter = new TicketAdapter(this, tickets, null);
+        TicketAdapter adapter = new TicketAdapter(this, tickets, flight);
         TicketAdapter.Callback adapterListener = new TicketAdapter.Callback() {
             @Override
             public void onButtonClick(int position) {
@@ -158,7 +173,7 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
     @Override
     public void finish() {
         Intent data = new Intent();
-        data.putParcelableArrayListExtra(MainActivity.ACCESS_MESSAGE, bookedTickets);
+        data.putParcelableArrayListExtra(MainActivity.ACCESS_MESSAGE_FLIGHT_ACTIVITY, bookedTickets);
         setResult(RESULT_OK, data);
         super.finish();
     }

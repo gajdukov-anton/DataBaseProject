@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.api.ServerApi;
 import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.User;
+import com.example.user.airtickets.object.UserData;
 
 public class Authorization extends AppCompatActivity {
     private final static String TAG = "Authorization";
@@ -32,9 +32,10 @@ public class Authorization extends AppCompatActivity {
             isPassed = true;
             EditText emailEditText = (EditText) findViewById(R.id.emailEditText);
             EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-            User user = new User(emailEditText.getText().toString(), passwordEditText.getText().toString());
+            UserData user = new UserData(emailEditText.getText().toString(), passwordEditText.getText().toString());
             if (isOnline()) {
                 authenticateUser(user);
+                //isPassed = false;
             } else {
                 isPassed = false;
                 Toast.makeText(Authorization.this, getResources().getString(R.string.online_error), Snackbar.LENGTH_LONG).show();
@@ -53,12 +54,17 @@ public class Authorization extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void authenticateUser(User user) {
+    private void authenticateUser(UserData user) {
         ServerApi serverApi = ServerApi.getInstance();
         ServerApi.AuthorizationListener listener = new ServerApi.AuthorizationListener() {
             @Override
             public void onAuthenticatedUser(ResponseFromServer responseFromServer) {
                 loadMainActivity(responseFromServer.status);
+                isPassed = false;
+            }
+            @Override
+            public void onFailure(String response) {
+                Toast.makeText(Authorization.this, response, Toast.LENGTH_SHORT).show();
                 isPassed = false;
             }
         };

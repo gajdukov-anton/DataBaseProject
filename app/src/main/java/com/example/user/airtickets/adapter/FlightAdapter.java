@@ -37,7 +37,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
 
     @Override
     public FlightAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_flight, parent, false);
+        View view = inflater.inflate(R.layout.flight_cardview, parent, false);
         return new ViewHolder(view);
     }
 

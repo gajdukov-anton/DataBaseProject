@@ -1,5 +1,6 @@
 package com.example.user.airtickets.activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,4 +70,11 @@ public class BookingActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void finish() {
+        Intent data = new Intent();
+        data.putParcelableArrayListExtra(MainActivity.ACCESS_MESSAGE_BOOKING_ACTIVITY, tickets);
+        setResult(RESULT_OK, data);
+        super.finish();
+    }
 }

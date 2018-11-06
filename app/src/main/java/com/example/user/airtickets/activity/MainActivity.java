@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.example.user.airtickets.api.ServerApi;
 import com.example.user.airtickets.fragment.BookingDialogFragment;
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.api.Api;
 import com.example.user.airtickets.adapter.FlightAdapter;
 import com.example.user.airtickets.object.Flight;
 import com.example.user.airtickets.object.Ticket;
@@ -37,8 +36,10 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Ticket> tickets = new ArrayList<>();
     private TextView amountTicketInBooking;
     static final String AGE_KEY = "AGE";
-    static final String ACCESS_MESSAGE = "ACCESS_MESSAGE";
-    private static final int REQUEST_ACCESS_TYPE = 1;
+    static final String ACCESS_MESSAGE_FLIGHT_ACTIVITY = "ACCESS_MESSAGE_FLIGHT_ACTIVITY";
+    static final String ACCESS_MESSAGE_BOOKING_ACTIVITY = "ACCESS_MESSAGE_BOOKING_ACTIVITY";
+    private static final int REQUEST_ACCESS_TO_FLIGHT_ACTIVITY = 1;
+    private static final int REQUEST_ACCESS_TO_BOOKING_ACTIVITY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,10 +120,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ACCESS_TYPE) {
+        if (requestCode == REQUEST_ACCESS_TO_FLIGHT_ACTIVITY) {
             if (resultCode == RESULT_OK) {
-                ArrayList<Ticket> tempArray = data.getParcelableArrayListExtra(ACCESS_MESSAGE);
+                ArrayList<Ticket> tempArray = data.getParcelableArrayListExtra(ACCESS_MESSAGE_FLIGHT_ACTIVITY);
                 tickets.addAll(tempArray);
+                updateAmountTicketInBooking(tickets.size());
+            }
+        }
+        if (requestCode == REQUEST_ACCESS_TO_BOOKING_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+                tickets = data.getParcelableArrayListExtra(ACCESS_MESSAGE_BOOKING_ACTIVITY);
                 updateAmountTicketInBooking(tickets.size());
             }
         } else {
@@ -175,7 +182,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList("tickets", tickets);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_ACCESS_TO_BOOKING_ACTIVITY);
         } else {
             Toast.makeText(this, "Корзина пуста", Toast.LENGTH_SHORT).show();
         }
@@ -187,7 +194,18 @@ public class MainActivity extends AppCompatActivity
         bundle.putParcelable("flight", flight);
         intent.putExtras(bundle);
         intent.putExtra("idFlight", flightId);
-        startActivityForResult(intent, REQUEST_ACCESS_TYPE);
+        startActivityForResult(intent, REQUEST_ACCESS_TO_FLIGHT_ACTIVITY);
+    }
+
+    private void exitToAuthorization() {
+        Intent intent = new Intent(this, Authorization.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    private void loadProfileActivity() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -197,16 +215,14 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             loadBookingActivity();
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.nav_profile) {
+            loadProfileActivity();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_exit_to_authorization) {
-            Intent intent = new Intent(this, Authorization.class);
-            startActivity(intent);
-            this.finish();
+            exitToAuthorization();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
