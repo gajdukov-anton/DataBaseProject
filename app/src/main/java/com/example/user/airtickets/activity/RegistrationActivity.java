@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.api.ServerApi;
+import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.NewUser;
+import com.example.user.airtickets.object.User;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -29,9 +29,9 @@ public class RegistrationActivity extends AppCompatActivity {
         if (!isButtonPassed) {
             isButtonPassed = true;
             if (isOnline()) {
-                NewUser newUser = new NewUser();
+                User newUser = new User();
                 newUser.setFirstName(getStringFromEditText(R.id.nameEditText));
-                newUser.setSecondName(getStringFromEditText(R.id.secondNameEditText));
+                newUser.setLastName(getStringFromEditText(R.id.secondNameEditText));
                 newUser.setLogin(getStringFromEditText(R.id.newEmailEditText));
                 newUser.setPassword(getStringFromEditText(R.id.newPasswordEditText));
                 newUser.setDateOfBirth(getStringFromEditText(R.id.dateOfBirthEditText));
@@ -55,7 +55,7 @@ public class RegistrationActivity extends AppCompatActivity {
         return editText.getText().toString();
     }
 
-    private void postNewUserToServer(final NewUser user) {
+    private void postNewUserToServer(final User user) {
         ServerApi serverApi = ServerApi.getInstance();
         ServerApi.RegistrationListener listener = new ServerApi.RegistrationListener() {
             @Override
@@ -66,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         };
         serverApi.setRegistrationListener(listener);
-        serverApi.uploadNewUserDataToServer(user, this);
+        serverApi.uploadNewUserToServer(user, this);
     }
 
     private void loadAuthorizationActivity(String info) {
@@ -86,8 +86,4 @@ public class RegistrationActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    private boolean checkDateOfBirth(String dateOfBirth) {
-
-        return true;
-    }
 }

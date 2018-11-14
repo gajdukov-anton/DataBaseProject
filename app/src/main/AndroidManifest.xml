@@ -30,7 +30,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.BookingActivity" />
         <activity android:name=".activity.FlightActivity" />
-        <activity android:name=".activity.ProfileActivity"></activity>
+        <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.AllOrdersActivity"></activity>
     </application>
 
 </manifest>

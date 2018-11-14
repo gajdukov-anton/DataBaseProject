@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.user.airtickets.api.ServerApi;
+import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.fragment.BookingDialogFragment;
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.adapter.FlightAdapter;
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity
     private List<Flight> flights = new ArrayList<>();
     private ArrayList<Ticket> tickets = new ArrayList<>();
     private TextView amountTicketInBooking;
-    static final String AGE_KEY = "AGE";
     static final String ACCESS_MESSAGE_FLIGHT_ACTIVITY = "ACCESS_MESSAGE_FLIGHT_ACTIVITY";
     static final String ACCESS_MESSAGE_BOOKING_ACTIVITY = "ACCESS_MESSAGE_BOOKING_ACTIVITY";
     private static final int REQUEST_ACCESS_TO_FLIGHT_ACTIVITY = 1;
@@ -208,6 +207,11 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    private void loadAllOrdersActivity() {
+        Intent intent = new Intent(this, AllOrdersActivity.class);
+        startActivity(intent);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -218,7 +222,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             loadProfileActivity();
         } else if (id == R.id.nav_slideshow) {
-
+            loadAllOrdersActivity();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_exit_to_authorization) {

@@ -13,13 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.api.ServerApi;
+import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.object.ResponseFromServer;
 import com.example.user.airtickets.object.UserData;
 
 public class Authorization extends AppCompatActivity {
     private final static String TAG = "Authorization";
     private boolean isPassed = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +34,10 @@ public class Authorization extends AppCompatActivity {
             EditText emailEditText = (EditText) findViewById(R.id.emailEditText);
             EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
             UserData user = new UserData(emailEditText.getText().toString(), passwordEditText.getText().toString());
+            UserData.currentLogin = user.login;
+            UserData.currentPassword = user.password;
             if (isOnline()) {
                 authenticateUser(user);
-                //isPassed = false;
             } else {
                 isPassed = false;
                 Toast.makeText(Authorization.this, getResources().getString(R.string.online_error), Snackbar.LENGTH_LONG).show();

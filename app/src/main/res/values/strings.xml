@@ -29,10 +29,14 @@
     <string name="profile">Профиль</string>
     <string name="settings">Настройки</string>
     <string name="sort">Сортировка</string>
+    <string name="bookings">Заказы</string>
     <string name="cancelBook">Отменить</string>
     <string name="sex">Пол</string>
     <string name="classTicket">Класс</string>
     <string name="numberTicket">Номер места</string>
     <string name="moreButton">Подробнее</string>
+    <string name="editProfileButton">РЕДАКТИРОВАТЬ</string>
+    <string name="postEditProfileButton">ОТПРАВИТЬ</string>
+    <string name="payOrder">ОПЛАТИТЬ</string>
 
 </resources>
