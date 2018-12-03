@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.api.retrofit.ServerApi;
-import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.User;
+import com.example.user.airtickets.models.ResponseFromServer;
+import com.example.user.airtickets.models.User;
 
 public class RegistrationActivity extends AppCompatActivity {
 

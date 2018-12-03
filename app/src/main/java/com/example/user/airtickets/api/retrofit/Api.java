@@ -1,12 +1,12 @@
 package com.example.user.airtickets.api.retrofit;
 
-import com.example.user.airtickets.object.Booking;
-import com.example.user.airtickets.object.Flight;
-import com.example.user.airtickets.object.Order;
-import com.example.user.airtickets.object.User;
-import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.Ticket;
-import com.example.user.airtickets.object.UserData;
+import com.example.user.airtickets.models.Booking;
+import com.example.user.airtickets.models.Flight;
+import com.example.user.airtickets.models.Order;
+import com.example.user.airtickets.models.User;
+import com.example.user.airtickets.models.ResponseFromServer;
+import com.example.user.airtickets.models.Ticket;
+import com.example.user.airtickets.models.UserData;
 
 import java.util.List;
 

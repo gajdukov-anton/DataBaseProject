@@ -1,4 +1,4 @@
-package com.example.user.airtickets.object;
+package com.example.user.airtickets.models;
 
 import android.os.Bundle;
 import android.os.Parcel;
@@ -13,9 +13,9 @@ public class User implements Parcelable {
     private String lastName;
     private String dateOfBirth = "2012-12-12";
     private String sex;
-    private String address = "Paris";
+    private String address = "";
     private String status = "user";
-    private String imageUrl;
+    private String urlImage = "";
     private String newPassword = "123";
 
     public User() {
@@ -69,6 +69,7 @@ public class User implements Parcelable {
         bundle.putString("sex", sex);
         bundle.putString("address", address);
         bundle.putString("status", status);
+        bundle.putString("urlImage", urlImage);
         parcel.writeBundle(bundle);
     }
 
@@ -92,14 +93,15 @@ public class User implements Parcelable {
         this.sex = bundle.getString("sex");
         this.address = bundle.getString("address");
         this.status = bundle.getString("status");
+        this.urlImage = bundle.getString("urlImage");
     }
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     public void setIdUser(int idUser) {
@@ -119,7 +121,7 @@ public class User implements Parcelable {
     }
 
     public void setDateOfBirth(String date_of_birth) {
-       // this.dateOfBirth = date_of_birth;
+        this.dateOfBirth = date_of_birth;
     }
 
     public void setLastName(String second_name) {
@@ -170,8 +172,8 @@ public class User implements Parcelable {
         return status;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getUrlImage() {
+        return urlImage;
     }
 
     public int getIdUser() {
@@ -197,6 +199,8 @@ public class User implements Parcelable {
     }
 
     public void editDateOfBirth(String value) {
+        this.dateOfBirth = this.dateOfBirth.replace('T', ' ');
+        this.dateOfBirth = this.dateOfBirth.replace('Z', ' ');
         if (!value.equals("")) {
            // this.dateOfBirth = value;
         }
@@ -213,6 +217,8 @@ public class User implements Parcelable {
             this.newPassword = value;
         }
     }
+
+
 
     public String getNewPassword() {
         return newPassword;

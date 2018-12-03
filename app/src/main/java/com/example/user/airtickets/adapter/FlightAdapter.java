@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.object.Flight;
+import com.example.user.airtickets.models.Flight;
 
 import java.util.List;
 

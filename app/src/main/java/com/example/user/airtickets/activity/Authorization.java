@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.api.retrofit.ServerApi;
-import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.UserData;
+import com.example.user.airtickets.models.ResponseFromServer;
+import com.example.user.airtickets.models.UserData;
 
 public class Authorization extends AppCompatActivity {
     private final static String TAG = "Authorization";
@@ -46,7 +46,7 @@ public class Authorization extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
     }
@@ -64,6 +64,7 @@ public class Authorization extends AppCompatActivity {
                 loadMainActivity(responseFromServer.status);
                 isPassed = false;
             }
+
             @Override
             public void onFailure(String response) {
                 Toast.makeText(Authorization.this, response, Toast.LENGTH_SHORT).show();
@@ -73,10 +74,15 @@ public class Authorization extends AppCompatActivity {
         serverApi.setAuthorizationListener(listener);
         serverApi.uploadUserDataToServer(user, this);
     }
-    
+
     private void loadMainActivity(String userType) {
-        if (userType.equals("admin") || userType.equals("user")) {
+        if (userType.equals("user")) {
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("userType", userType);
+            startActivity(intent);
+            this.finish();
+        } else if (userType.equals("admin")) {
+            Intent intent = new Intent(this, AdminMenuActivity.class);
             intent.putExtra("userType", userType);
             startActivity(intent);
             this.finish();
@@ -85,6 +91,7 @@ public class Authorization extends AppCompatActivity {
                     getResources().getString(R.string.login_error), Toast.LENGTH_SHORT);
             toast.show();
         }
+
     }
 
     private boolean isOnline() {

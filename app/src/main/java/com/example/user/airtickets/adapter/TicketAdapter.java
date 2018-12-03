@@ -1,18 +1,16 @@
 package com.example.user.airtickets.adapter;
 
 import android.content.Context;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.object.Flight;
-import com.example.user.airtickets.object.Ticket;
+import com.example.user.airtickets.models.Flight;
+import com.example.user.airtickets.models.Ticket;
 
 import java.util.List;
 

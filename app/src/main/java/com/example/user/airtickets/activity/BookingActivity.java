@@ -16,10 +16,10 @@ import com.example.user.airtickets.R;
 import com.example.user.airtickets.adapter.BookingAdapter;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.fragment.PostBookingDialogFragment;
-import com.example.user.airtickets.object.Booking;
-import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.Ticket;
-import com.example.user.airtickets.object.UserData;
+import com.example.user.airtickets.models.Booking;
+import com.example.user.airtickets.models.ResponseFromServer;
+import com.example.user.airtickets.models.Ticket;
+import com.example.user.airtickets.models.UserData;
 
 
 import java.util.ArrayList;

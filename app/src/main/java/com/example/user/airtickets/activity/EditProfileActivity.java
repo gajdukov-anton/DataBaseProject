@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.api.retrofit.ServerApi;
-import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.User;
-import com.example.user.airtickets.object.UserData;
+import com.example.user.airtickets.models.ResponseFromServer;
+import com.example.user.airtickets.models.User;
+import com.example.user.airtickets.models.UserData;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -59,9 +59,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private void setInformationToEditText() {
         setHintToEditText(R.id.nameEditText, user.getFirstName());
         setHintToEditText(R.id.secondNameEditText, user.getLastName());
-        setHintToEditText(R.id.newEmailEditText, user.getLogin());
-        // setHintToEditText(R.id.newPasswordEditText, user.g());
-        setHintToEditText(R.id.dateOfBirthEditText, user.getDateOfBirth());
         setHintToEditText(R.id.sexEditText, user.getSex());
     }
 
@@ -73,9 +70,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void editUserDataFromEditText() {
         user.editFirstName(getStringFromEditText(R.id.nameEditText));
         user.editLastName(getStringFromEditText(R.id.secondNameEditText));
-//        user.editNewPassword(getStringFromEditText(R.id.passwordEditText));
-        //  user.editLogin(getStringFromEditText(R.id.newEmailEditText));
-        user.editDateOfBirth(getStringFromEditText(R.id.dateOfBirthEditText));
+        user.editNewPassword(getStringFromEditText(R.id.newPasswordEditText));
         user.editSex(getStringFromEditText(R.id.sexEditText));
     }
 
@@ -89,8 +84,14 @@ public class EditProfileActivity extends AppCompatActivity {
         ServerApi.EditUserListener listener = new ServerApi.EditUserListener() {
             @Override
             public void onUploadEditUser(ResponseFromServer responseFromServer) {
-                // Toast.makeText(this, responseFromServer.)
+                isButtonPassed = false;
                 finish();
+            }
+
+            @Override
+            public void onFailure(String require) {
+                Toast.makeText(EditProfileActivity.this, require, Toast.LENGTH_SHORT).show();
+                isButtonPassed = false;
             }
         };
         serverApi.setEditUserListener(listener);

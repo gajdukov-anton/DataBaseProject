@@ -10,13 +10,13 @@ import com.example.user.airtickets.activity.BookingActivity;
 import com.example.user.airtickets.activity.FlightActivity;
 import com.example.user.airtickets.activity.MainActivity;
 import com.example.user.airtickets.activity.ProfileActivity;
-import com.example.user.airtickets.object.Booking;
-import com.example.user.airtickets.object.Flight;
-import com.example.user.airtickets.object.Order;
-import com.example.user.airtickets.object.User;
-import com.example.user.airtickets.object.ResponseFromServer;
-import com.example.user.airtickets.object.Ticket;
-import com.example.user.airtickets.object.UserData;
+import com.example.user.airtickets.models.Booking;
+import com.example.user.airtickets.models.Flight;
+import com.example.user.airtickets.models.Order;
+import com.example.user.airtickets.models.User;
+import com.example.user.airtickets.models.ResponseFromServer;
+import com.example.user.airtickets.models.Ticket;
+import com.example.user.airtickets.models.UserData;
 
 import java.util.List;
 
@@ -70,6 +70,8 @@ public class ServerApi {
 
     public interface EditUserListener {
         void onUploadEditUser(ResponseFromServer responseFromServer);
+
+        void onFailure(String require);
     }
 
     public interface PostBookingListener {
@@ -232,7 +234,8 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<ResponseFromServer> call, Throwable t) {
-                Toast.makeText(appCompatActivity, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
+                //Toast.makeText(appCompatActivity, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
+                editUserListener.onFailure("Не удалось соединиться с сервером");
             }
         });
     }

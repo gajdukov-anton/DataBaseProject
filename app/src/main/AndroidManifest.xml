@@ -32,7 +32,8 @@
         <activity android:name=".activity.FlightActivity" />
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.AllOrdersActivity"></activity>
+        <activity android:name=".activity.AllOrdersActivity" />
+        <activity android:name=".activity.AdminMenuActivity"></activity>
     </application>
 
 </manifest>

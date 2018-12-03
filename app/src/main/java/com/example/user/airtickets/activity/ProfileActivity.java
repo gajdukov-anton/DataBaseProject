@@ -11,10 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.api.retrofit.ServerApi;
-import com.example.user.airtickets.object.User;
-import com.example.user.airtickets.object.UserData;
+import com.example.user.airtickets.models.User;
+import com.example.user.airtickets.models.UserData;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -49,8 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
         UserData userData = new UserData(UserData.currentLogin, UserData.currentPassword);
         serverApi.downloadUser(this, userData);
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageProfile);
-        imageView.setImageResource(R.drawable.no_photo);
+
     }
 
     private void displayUserData(@Nullable User user) {
@@ -60,6 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
         setStringToTextView(R.id.loginViewProfile, "Логин: " + user.getLogin());
         setStringToTextView(R.id.dateOfBirthViewProfile, "Дата рождения: " + user.getDateOfBirth());
         setStringToTextView(R.id.sexViewProfile, "Пол: " + user.getSex());
+        downloadImageToImageView(R.id.imageProfile, user);
     }
 
     public void loadEditProfileActivity(View view) {
@@ -69,6 +70,18 @@ public class ProfileActivity extends AppCompatActivity {
             bundle.putParcelable("User", user);
             intent.putExtras(bundle);
             startActivityForResult(intent, REQUEST_ACCESS_TO_EDIT_PROFILE_ACTIVITY);
+        }
+    }
+
+    private void downloadImageToImageView(int id, User user) {
+        ImageView imageView = (ImageView) findViewById(id);
+        if (user.getUrlImage() == null) {
+            imageView.setImageResource(R.drawable.no_photo);
+        } else {
+          //  Toast.makeText(this, user.getUrlImage(), Toast.LENGTH_SHORT).show();
+            Glide.with(this)
+                    .load(user.getUrlImage())
+                    .into(imageView);
         }
     }
 

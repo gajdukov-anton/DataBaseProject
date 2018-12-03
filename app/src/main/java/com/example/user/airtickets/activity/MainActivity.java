@@ -23,8 +23,8 @@ import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.fragment.BookingDialogFragment;
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.adapter.FlightAdapter;
-import com.example.user.airtickets.object.Flight;
-import com.example.user.airtickets.object.Ticket;
+import com.example.user.airtickets.models.Flight;
+import com.example.user.airtickets.models.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;

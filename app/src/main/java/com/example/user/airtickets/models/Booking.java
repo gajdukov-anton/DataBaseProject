@@ -1,4 +1,4 @@
-package com.example.user.airtickets.object;
+package com.example.user.airtickets.models;
 
 import java.util.List;
 
