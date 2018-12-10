@@ -33,7 +33,13 @@
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.AllOrdersActivity" />
-        <activity android:name=".activity.AdminMenuActivity"></activity>
+        <activity android:name=".activity.AdminMenuActivity" />
+        <activity android:name=".activity.CreateFlightActivity" />
+        <activity android:name=".activity.ChooseFlightActivity" />
+        <activity
+            android:name=".activity.CreateTicketActivity"
+            android:label="@string/title_activity_create_ticket"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

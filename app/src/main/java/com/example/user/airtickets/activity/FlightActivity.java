@@ -38,8 +38,8 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         getDataFromIntent();
         initData();
         displayFlightInformation();
-        createRecyclerView();
-        //createRecyclerViewWithTickets(idFlight);
+        //createRecyclerView();
+        createRecyclerViewWithTickets(idFlight);
         createBackButton();
     }
 
@@ -55,11 +55,11 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
     }
 
     private void displayFlightInformation() {
-        setStringToTextView(R.id.pointOfDepartureFlightInformation, "Место отправления: " + flight.getPoint_of_departure());
-        setStringToTextView(R.id.pointOfDestinationFlightInformation, "Место прибытия: " + flight.getPoint_of_destination());
+        setStringToTextView(R.id.pointOfDepartureFlightInformation, "Место отправления: " + flight.getPointOfDeparture());
+        setStringToTextView(R.id.pointOfDestinationFlightInformation, "Место прибытия: " + flight.getPointOfDestination());
         setStringToTextView(R.id.airportFlightInformation, "Данные о компании: Компания");
-        setStringToTextView(R.id.timeOfDepartureFlightInformation, "Время отправления: " + flight.getTime_of_departure());
-        setStringToTextView(R.id.timeOfDestinationFlightInformation, "Время прибытия: " + flight.getTime_of_destination());
+        setStringToTextView(R.id.timeOfDepartureFlightInformation, "Время отправления: " + flight.getTimeOfDeparture());
+        setStringToTextView(R.id.timeOfDestinationFlightInformation, "Время прибытия: " + flight.getTimeOfDestination());
     }
 
     private void setStringToTextView(int id, String value) {

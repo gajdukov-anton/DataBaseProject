@@ -36,7 +36,10 @@
     <string name="numberTicket">Номер места</string>
     <string name="moreButton">Подробнее</string>
     <string name="editProfileButton">РЕДАКТИРОВАТЬ</string>
-    <string name="postEditProfileButton">ОТПРАВИТЬ</string>
+    <string name="postButton">ОТПРАВИТЬ</string>
     <string name="payOrder">ОПЛАТИТЬ</string>
-
+    <string name="allFlights">ВСЕ БИЛЕТЫ</string>
+    <string name="createFlight">СОЗДАТЬ РЕЙС</string>
+    <string name="createTicket">СОЗДАТЬ БИЛЕТ</string>
+    <string name="title_activity_create_ticket">CreateTicketActivity</string>
 </resources>

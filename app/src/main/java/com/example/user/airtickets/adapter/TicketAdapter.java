@@ -46,8 +46,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     @Override
     public void onBindViewHolder(TicketAdapter.ViewHolder holder, final int position) {
         Ticket ticket = tickets.get(position);
-        ticket.setPointOfDeparture(flight.getPoint_of_departure());
-        ticket.setPointOfDestination(flight.getPoint_of_destination());
+        ticket.setPointOfDeparture(flight.getPointOfDeparture());
+        ticket.setPointOfDestination(flight.getPointOfDestination());
        // final Ticket ticket = tempTicket;
         holder.numberTicketInfoView.setText(String.valueOf(ticket.getIdTicket()));
         holder.classTicketInfoView.setText(ticket.getClassTicket());

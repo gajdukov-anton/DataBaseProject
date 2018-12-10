@@ -8,11 +8,12 @@ import com.example.user.airtickets.activity.AllOrdersActivity;
 import com.example.user.airtickets.activity.Authorization;
 import com.example.user.airtickets.activity.BookingActivity;
 import com.example.user.airtickets.activity.FlightActivity;
-import com.example.user.airtickets.activity.MainActivity;
 import com.example.user.airtickets.activity.ProfileActivity;
 import com.example.user.airtickets.models.Booking;
 import com.example.user.airtickets.models.Flight;
+import com.example.user.airtickets.models.FlightForUpload;
 import com.example.user.airtickets.models.Order;
+import com.example.user.airtickets.models.TicketForUpload;
 import com.example.user.airtickets.models.User;
 import com.example.user.airtickets.models.ResponseFromServer;
 import com.example.user.airtickets.models.Ticket;
@@ -35,6 +36,9 @@ public class ServerApi {
     private EditUserListener editUserListener;
     private PostBookingListener postBookingListener;
     private DownloadOrdersListener downloadOrdersListener;
+    private UploadNewFlightListener uploadNewFlightListener;
+    private UploadNewTicketListener uploadNewTicketListener;
+    private DownLoadFlightsByLocationListener downLoadFlightsByLocationListener;
     static private Api api;
     static private Retrofit retrofit;
 
@@ -84,6 +88,24 @@ public class ServerApi {
         void onDownloadedOrders(List<Order> orders);
     }
 
+    public interface UploadNewFlightListener {
+        void onUploadNewFlight(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface UploadNewTicketListener {
+        void onUploadNewTicketListener(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface DownLoadFlightsByLocationListener {
+        void onDownloadFlights(List<Flight> flights);
+
+        void onFailure(String message);
+    }
+
     public void setRegistrationListener(RegistrationListener registrationListener) {
         this.registrationListener = registrationListener;
     }
@@ -114,6 +136,18 @@ public class ServerApi {
 
     public void setDownloadOrdersListener(DownloadOrdersListener downloadOrdersListener) {
         this.downloadOrdersListener = downloadOrdersListener;
+    }
+
+    public void setUploadNewFlightListener(UploadNewFlightListener uploadNewFlightListener) {
+        this.uploadNewFlightListener = uploadNewFlightListener;
+    }
+
+    public void setUploadNewTicketListener(UploadNewTicketListener uploadNewTicketListener) {
+        this.uploadNewTicketListener = uploadNewTicketListener;
+    }
+
+    public void setDownLoadFlightsByLocationListener(DownLoadFlightsByLocationListener downLoadFlightsByLocation) {
+        this.downLoadFlightsByLocationListener = downLoadFlightsByLocation;
     }
 
     private ServerApi() {
@@ -163,7 +197,7 @@ public class ServerApi {
         });
     }
 
-    public void downloadFlights(final MainActivity mainActivity) {
+    public void downloadFlights(final AppCompatActivity appCompatActivity) {
 
         final Call<List<Flight>> newFlights = api.downloadFlights();
         newFlights.enqueue(new Callback<List<Flight>>() {
@@ -177,7 +211,7 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<List<Flight>> call, Throwable t) {
-                Toast.makeText(mainActivity, "Не удалось соединиться с сервером", Toast.LENGTH_SHORT).show();
+                Toast.makeText(appCompatActivity, "Не удалось соединиться с сервером", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -272,9 +306,77 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
-                Toast.makeText(allOrdersActivity,"Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(allOrdersActivity, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
             }
         });
     }
 
+    public void uploadNewFlightToServer(final FlightForUpload flight) {
+        Call<ResponseFromServer> call = api.postNewFlight(flight);
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    uploadNewFlightListener.onUploadNewFlight(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                uploadNewFlightListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void uploadNewTicketToServer(final TicketForUpload ticket) {
+        Call<ResponseFromServer> call = api.postNewTicket(ticket);
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    uploadNewTicketListener.onUploadNewTicketListener(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                uploadNewTicketListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void downloadFlightsByLocation(final String pointOfDestination, final String pointOfDeparture) {
+        Call<List<Flight>> call = api.downloadFlights(pointOfDestination, pointOfDeparture);
+        call.enqueue(new Callback<List<Flight>>() {
+            @Override
+            public void onResponse(Call<List<Flight>> call, Response<List<Flight>> response) {
+                if (response.isSuccessful()) {
+                    downLoadFlightsByLocationListener.onDownloadFlights(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Flight>> call, Throwable t) {
+                downLoadFlightsByLocationListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+
+    public void downloadFlightsByLocation(final String city) {
+        Call<List<Flight>> call = api.downloadFlights(city);
+        call.enqueue(new Callback<List<Flight>>() {
+            @Override
+            public void onResponse(Call<List<Flight>> call, Response<List<Flight>> response) {
+                if (response.isSuccessful()) {
+                    downLoadFlightsByLocationListener.onDownloadFlights(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Flight>> call, Throwable t) {
+                downLoadFlightsByLocationListener.onFailure(t.getMessage());
+            }
+        });
+    }
 }

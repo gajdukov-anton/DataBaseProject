@@ -18,6 +18,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
     private LayoutInflater inflater;
     private List<Flight> flights;
     private Callback callback;
+    private String buttonText;
 
 
     public FlightAdapter(Context context, List<Flight> flights, Callback callback) {
@@ -29,11 +30,14 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
     public interface Callback {
         void onMoreButtonClick(int flightId, int positionInList);
     }
+
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
-
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;
+    }
 
     @Override
     public FlightAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -44,20 +48,22 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
     @Override
     public void onBindViewHolder(FlightAdapter.ViewHolder holder, final int position) {
         final Flight flight = flights.get(position);
-        holder.departureInfoView.setText(flight.getPoint_of_departure());
-        holder.destinationInfoView.setText(flight.getPoint_of_destination());
-        holder.companyInfoView.setText(String.valueOf(flight.getFlightId()));
+        holder.departureInfoView.setText(flight.getPointOfDeparture());
+        holder.destinationInfoView.setText(flight.getPointOfDestination());
+        holder.companyInfoView.setText(flight.getCompanyName());
         holder.inTravelinfoView.setText(flight.getTimeInTravel());
-        holder.bookButton.setOnClickListener(new View.OnClickListener() {
+        if (buttonText != null) {
+            holder.button.setText(buttonText);
+        }
+        holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (callback != null) {
-                    callback.onMoreButtonClick(flight.getFlightId(), position);
+                    callback.onMoreButtonClick(flight.getIdFlight(), position);
                 }
             }
         });
     }
-
 
 
     @Override
@@ -67,12 +73,12 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final TextView departureInfoView, destinationInfoView,
-            companyInfoView, inTravelinfoView;
-        final Button bookButton;
+                companyInfoView, inTravelinfoView;
+        final Button button;
 
         ViewHolder(View view) {
             super(view);
-            bookButton = (Button) view.findViewById(R.id.bookButton);
+            button = (Button) view.findViewById(R.id.bookButton);
             departureInfoView = (TextView) view.findViewById(R.id.departure_info);
             destinationInfoView = (TextView) view.findViewById(R.id.destination_info);
             companyInfoView = (TextView) view.findViewById(R.id.company_info);

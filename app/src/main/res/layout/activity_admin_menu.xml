@@ -12,14 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="24dp"
         android:background="@color/colorSignInButton"
-        android:onClick="startMainActivity"
-        android:text="@string/log_in"
 
+        android:onClick="startMainActivity"
+        android:text="@string/allFlights"
         android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/createFlightButton"
@@ -27,29 +27,29 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="24dp"
         android:background="@color/colorSignInButton"
         android:onClick="startCreateFlightActivity"
-        android:text="@string/log_in"
 
+        android:text="@string/createFlight"
         android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainActivityButton" />
+        app:layout_constraintTop_toBottomOf="@+id/mainActivityButton" />
 
     <Button
         android:id="@+id/createTicketButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="130dp"
         android:background="@color/colorSignInButton"
-        android:onClick="startCreateFlightActivity"
-        android:text="@string/log_in"
+        android:onClick="startCreateTicketActivity"
 
+        android:text="@string/createTicket"
         android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createFlightButton" />
+        app:layout_constraintTop_toBottomOf="@+id/createFlightButton" />
 
 
 </android.support.constraint.ConstraintLayout>

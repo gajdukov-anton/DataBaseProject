@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BookingDialogFragment.BookingDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BookingDialogFragment.BookingDialogListener, SearchView.OnQueryTextListener {
 
     private List<Flight> flights = new ArrayList<>();
     private ArrayList<Ticket> tickets = new ArrayList<>();
@@ -63,6 +64,68 @@ public class MainActivity extends AppCompatActivity
         amountTicketInBooking = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.nav_camera));
         initializeAmountTicketInBooking();
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_search, menu);
+//        MenuItem searchItem = menu.findItem(R.id.search);
+//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        searchView.setOnQueryTextListener(this);
+//        return true;
+//    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        String locations[] = query.split(" ");
+        if (locations.length == 1) {
+            createRecyclerViewWithFlights(locations[0]);
+        } else if (locations.length == 2){
+            createRecyclerViewWithFlights(locations[0], locations[1]);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+
+    private void createRecyclerViewWithFlights(String pointOfDestination, String pointOfDeparture) {
+        ServerApi serverApi = ServerApi.getInstance();
+        ServerApi.DownLoadFlightsByLocationListener listener = new ServerApi.DownLoadFlightsByLocationListener() {
+            @Override
+            public void onDownloadFlights(List<Flight> flights) {
+                Toast.makeText(MainActivity.this, "Lol", Toast.LENGTH_LONG).show();
+                createRecyclerView(flights);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(MainActivity.this, "Не удалось: " + message, Toast.LENGTH_LONG).show();
+            }
+        };
+        serverApi.setDownLoadFlightsByLocationListener(listener);
+        serverApi.downloadFlightsByLocation(pointOfDestination, pointOfDeparture);
+    }
+
+    private void createRecyclerViewWithFlights(String city) {
+        ServerApi serverApi = ServerApi.getInstance();
+        ServerApi.DownLoadFlightsByLocationListener listener = new ServerApi.DownLoadFlightsByLocationListener() {
+            @Override
+            public void onDownloadFlights(List<Flight> flights) {
+                Toast.makeText(MainActivity.this, "Lol", Toast.LENGTH_LONG).show();
+                createRecyclerView(flights);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(MainActivity.this, "Не удалось: " + message, Toast.LENGTH_LONG).show();
+            }
+        };
+        serverApi.setDownLoadFlightsByLocationListener(listener);
+        serverApi.downloadFlightsByLocation(city);
     }
 
     private void createRecyclerViewWithFlights() {
@@ -160,6 +223,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

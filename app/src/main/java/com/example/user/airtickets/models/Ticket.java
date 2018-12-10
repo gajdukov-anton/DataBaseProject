@@ -8,16 +8,20 @@ public class Ticket  implements Parcelable {
     private String userName;
     private String userSecondName;
     private String name;
-    private int idTicket;
+    private int idTicket = -1;
+    private int idClass = -1;
+    private int idFlight = -1;
     private String classDescription;
     private String ticketDescription;
     private int numberTicket;
-    private double price;
+    private double price = -1;
     private String classTicket;
     private String pointOfDeparture = "";
     private String pointOfDestination = "";
 
+    public Ticket() {
 
+    }
 
     public Ticket(String name, String secondName) {
         this.userName = name;
@@ -83,6 +87,15 @@ public class Ticket  implements Parcelable {
         this.pointOfDestination = bundle.getString("pointOfDestination");
     }
 
+    public boolean isReadyToUpload() {
+        if (idClass != -1 && price != -1.0 &&
+                numberTicket != -1 && classDescription != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -99,6 +112,14 @@ public class Ticket  implements Parcelable {
         this.ticketDescription = ticketDescription;
     }
 
+    public void setIdClass(String idClass) {
+        try {
+            this.idClass = Integer.valueOf(idClass);
+        } catch (NumberFormatException exception) {
+            this.idClass = -1;
+        }
+    }
+
     public void setUserName(String name) {
         this.userName = name;
     }
@@ -107,12 +128,32 @@ public class Ticket  implements Parcelable {
         this.price = price;
     }
 
+    public void setPrice(String price) {
+        try {
+            this.price = Double.valueOf(price);
+        } catch (NumberFormatException exception) {
+            this.price = -1;
+        }
+    }
+
     public void setClassTicket(String classTicket) {
         this.classTicket = classTicket;
     }
 
     public void setNumberTicket(int numberTicket) {
         this.numberTicket = numberTicket;
+    }
+
+    public void setIdFlight(int idFlight) {
+        this.idFlight = idFlight;
+    }
+
+    public void setNumberTicket(String numberTicket) {
+        try {
+            this.numberTicket = Integer.valueOf(numberTicket);
+        } catch (NumberFormatException exception) {
+            this.numberTicket = -1;
+        }
     }
 
     public void setPointOfDeparture(String pointOfDeparture) {
@@ -169,5 +210,13 @@ public class Ticket  implements Parcelable {
 
     public String getPointOfDestination() {
         return pointOfDestination;
+    }
+
+    public int getIdClass() {
+        return idClass;
+    }
+
+    public int getIdFlight() {
+        return idFlight;
     }
 }

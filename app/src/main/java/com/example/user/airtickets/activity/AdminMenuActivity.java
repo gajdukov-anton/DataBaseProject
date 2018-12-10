@@ -22,10 +22,12 @@ public class AdminMenuActivity extends AppCompatActivity {
     }
 
     public void startCreateFlightActivity(View view) {
-
+        Intent intent = new Intent(this, CreateFlightActivity.class);
+        startActivity(intent);
     }
 
     public void startCreateTicketActivity(View view) {
-
+        Intent intent = new Intent(this, ChooseFlightActivity.class);
+        startActivity(intent);
     }
 }
