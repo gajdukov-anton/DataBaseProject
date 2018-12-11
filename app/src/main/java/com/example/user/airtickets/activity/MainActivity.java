@@ -33,7 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BookingDialogFragment.BookingDialogListener, SearchView.OnQueryTextListener {
 
-    private List<Flight> flights = new ArrayList<>();
+    private List<Flight> flightList = new ArrayList<>();
     private ArrayList<Ticket> tickets = new ArrayList<>();
     private TextView amountTicketInBooking;
     static final String ACCESS_MESSAGE_FLIGHT_ACTIVITY = "ACCESS_MESSAGE_FLIGHT_ACTIVITY";
@@ -47,50 +47,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        //setInitData();
         createRecyclerViewWithFlights();
-        //createRecyclerViewWithFlights();
-
-        amountTicketInBooking = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
-                findItem(R.id.nav_camera));
+        amountTicketInBooking = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.nav_camera));
         initializeAmountTicketInBooking();
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_search, menu);
-//        MenuItem searchItem = menu.findItem(R.id.search);
-//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-//        searchView.setOnQueryTextListener(this);
-//        return true;
-//    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        String locations[] = query.split(" ");
-        if (locations.length == 1) {
-            createRecyclerViewWithFlights(locations[0]);
-        } else if (locations.length == 2){
-            createRecyclerViewWithFlights(locations[0], locations[1]);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
 
     private void createRecyclerViewWithFlights(String pointOfDestination, String pointOfDeparture) {
         ServerApi serverApi = ServerApi.getInstance();
@@ -121,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(MainActivity.this, "Не удалось: " + message, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Не удалось найти рейс", Toast.LENGTH_LONG).show();
             }
         };
         serverApi.setDownLoadFlightsByLocationListener(listener);
@@ -134,6 +101,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDownloadedFlights(List<Flight> flights) {
                 createRecyclerView(flights);
+                flightList = flights;
             }
         };
         serverApi.setDownloadFlightsListener(listener);
@@ -141,7 +109,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createRecyclerView(final List<Flight> flights) {
-        this.flights = flights;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
@@ -199,17 +166,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setInitData() {
-        flights.add(new Flight("Москва", "Казань", "Аэрофлот"));
-        flights.add(new Flight("Омск", "Санкт-Петербург", "ТрансАэро"));
-        flights.add(new Flight("Москва", "Киров", "Алапаевские Авиалинии"));
-        flights.add(new Flight("Москва", "Челябинск", "Челябинский перелет"));
-        flights.add(new Flight("Тагил", "Йошкар-Ола", "Тагильский улёт"));
-        flights.add(new Flight("Тагил", "Йошкар-Ола", "Тагильский улёт"));
-        flights.add(new Flight("Тагил", "Йошкар-Ола", "Тагильский улёт"));
-        flights.add(new Flight("Тагил", "Йошкар-Ола", "Тагильский улёт"));
-
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+//        String locations[] = query.split(" ");
+//        if (locations.length == 1) {
+//            createRecyclerViewWithFlights(locations[0]);
+//        } else if (locations.length == 2) {
+//            createRecyclerViewWithFlights(locations[0], locations[1]);
+//        }
+        createRecyclerViewWithFlights(query);
+        return false;
     }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.isEmpty()) {
+            //createRecyclerViewWithFlights();
+            createRecyclerView(flightList);
+        }
+        return false;
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -238,7 +215,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
