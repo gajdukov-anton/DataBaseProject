@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
@@ -57,21 +58,20 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void setInformationToEditText() {
-        setHintToEditText(R.id.nameEditText, user.getFirstName());
-        setHintToEditText(R.id.secondNameEditText, user.getLastName());
-        setHintToEditText(R.id.sexEditText, user.getSex());
+        setValueToEditText(R.id.nameEditText, user.getFirstName());
+        setValueToEditText(R.id.secondNameEditText, user.getLastName());
     }
 
-    private void setHintToEditText(int id, String value) {
+    private void setValueToEditText(int id, String value) {
         EditText editText = (EditText) findViewById(id);
-        editText.setHint(value);
+        editText.setText(value);
     }
 
     private void editUserDataFromEditText() {
         user.editFirstName(getStringFromEditText(R.id.nameEditText));
         user.editLastName(getStringFromEditText(R.id.secondNameEditText));
         user.editNewPassword(getStringFromEditText(R.id.newPasswordEditText));
-        user.editSex(getStringFromEditText(R.id.sexEditText));
+        user.editSex(getSexFromRadioButton(R.id.male, R.id.female));
     }
 
     private String getStringFromEditText(int id) {
@@ -79,8 +79,21 @@ public class EditProfileActivity extends AppCompatActivity {
         return editText.getText().toString();
     }
 
-    private void postEditUserToServer(User user) { //Переделать В ServerApi
+    private String getSexFromRadioButton(int idMale, int idFemale) {
+        RadioButton maleButton = (RadioButton) findViewById(idMale);
+        RadioButton femaleButton = (RadioButton) findViewById(idFemale);
+        if (maleButton.isChecked()) {
+            return "male";
+        } else if (femaleButton.isChecked()) {
+            return "female";
+        } else {
+            return "";
+        }
+    }
+
+    private void postEditUserToServer(User user) {
         ServerApi serverApi = ServerApi.getInstance();
+        Toast.makeText(EditProfileActivity.this, "Besit", Toast.LENGTH_SHORT).show();
         ServerApi.EditUserListener listener = new ServerApi.EditUserListener() {
             @Override
             public void onUploadEditUser(ResponseFromServer responseFromServer) {

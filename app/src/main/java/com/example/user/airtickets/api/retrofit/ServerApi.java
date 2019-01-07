@@ -39,6 +39,7 @@ public class ServerApi {
     private UploadNewFlightListener uploadNewFlightListener;
     private UploadNewTicketListener uploadNewTicketListener;
     private DownLoadFlightsByLocationListener downLoadFlightsByLocationListener;
+    private PostConfirmOrderToServerListener postConfirmOrderToServerListener;
     static private Api api;
     static private Retrofit retrofit;
 
@@ -86,6 +87,8 @@ public class ServerApi {
 
     public interface DownloadOrdersListener {
         void onDownloadedOrders(List<Order> orders);
+
+        void onFailure(String message);
     }
 
     public interface UploadNewFlightListener {
@@ -102,6 +105,18 @@ public class ServerApi {
 
     public interface DownLoadFlightsByLocationListener {
         void onDownloadFlights(List<Flight> flights);
+
+        void onFailure(String message);
+    }
+
+    public interface PostConfirmOrderToServerListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface PostCancelOrderToServerListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
 
         void onFailure(String message);
     }
@@ -144,6 +159,10 @@ public class ServerApi {
 
     public void setUploadNewTicketListener(UploadNewTicketListener uploadNewTicketListener) {
         this.uploadNewTicketListener = uploadNewTicketListener;
+    }
+
+    public void setPostConfirmOrderToServerListener(PostConfirmOrderToServerListener postConfirmOrderToServerListener) {
+        this.postConfirmOrderToServerListener = postConfirmOrderToServerListener;
     }
 
     public void setDownLoadFlightsByLocationListener(DownLoadFlightsByLocationListener downLoadFlightsByLocation) {
@@ -274,7 +293,7 @@ public class ServerApi {
         });
     }
 
-    public void postBookingToServer(final BookingActivity bookingActivity, final Booking booking) {
+    public void postBookingToServer(final Booking booking) {
         Call<ResponseFromServer> call = api.postBooking(booking);
         call.enqueue(new Callback<ResponseFromServer>() {
             @Override
@@ -287,7 +306,7 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<ResponseFromServer> call, Throwable t) {
-                postBookingListener.onFailure("Не удалось соединиться с сервером");
+                postBookingListener.onFailure(t.getMessage());
                 //Toast.makeText(bookingActivity, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
             }
         });
@@ -295,7 +314,7 @@ public class ServerApi {
 
 
     public void downloadOrdersFromServer(final AllOrdersActivity allOrdersActivity, final UserData userData) {
-        Call<List<Order>> call = api.downloadOrders(userData);
+        Call<List<Order>> call = api.downloadOrders(userData.login, userData.password);
         call.enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
@@ -306,7 +325,8 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
-                Toast.makeText(allOrdersActivity, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
+                downloadOrdersListener.onFailure(t.getMessage());
+                //Toast.makeText(allOrdersActivity, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -376,6 +396,26 @@ public class ServerApi {
             @Override
             public void onFailure(Call<List<Flight>> call, Throwable t) {
                 downLoadFlightsByLocationListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void postConfirmOrderToServer(final int idBooking) {
+       // Toast.makeText(AllOrdersActivity.this, idBooking);
+        Call<ResponseFromServer> call = api.postConFirmOrderToServer(String.valueOf(idBooking));
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    ResponseFromServer responseFromServer = response.body();
+                    responseFromServer.status += String.valueOf(idBooking);
+                    postConfirmOrderToServerListener.onSuccessful(responseFromServer);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                postConfirmOrderToServerListener.onFailure(t.getMessage());
             }
         });
     }

@@ -50,7 +50,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         ticket.setPointOfDestination(flight.getPointOfDestination());
        // final Ticket ticket = tempTicket;
         holder.numberTicketInfoView.setText(String.valueOf(ticket.getIdTicket()));
-        holder.classTicketInfoView.setText(ticket.getClassTicket());
+        holder.classTicketInfoView.setText(ticket.getName());
         holder.priceTicketInfoCardview.setText(String.valueOf(ticket.getPrice()));
         holder.bookButton.setOnClickListener(new View.OnClickListener() {
             @Override

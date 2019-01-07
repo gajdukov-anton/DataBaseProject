@@ -6,15 +6,15 @@ public class Booking {
     private List<Ticket> tickets;
     private String login;
     private String password;
-    private String numberCard = "551541728541784";
+    private String card = "551541728541784";
 
     public Booking() {
 
     }
 
 
-    public void setNumberCard(String numberCard) {
-        this.numberCard = numberCard;
+    public void setCard(String card) {
+        this.card = card;
     }
 
     public void setPassword(String password) {
@@ -41,7 +41,7 @@ public class Booking {
         return tickets;
     }
 
-    public String getNumberCard() {
-        return numberCard;
+    public String getCard() {
+        return card;
     }
 }

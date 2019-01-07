@@ -36,7 +36,7 @@ public class BookingDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         return builder
                 .setTitle("Окно заказа")
-                .setMessage("Укажите имя и фамилию пассажира")
+                .setMessage("Укажите данные пассажира")
                 .setView(R.layout.booking_dialog)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override

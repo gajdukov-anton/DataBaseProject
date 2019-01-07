@@ -36,6 +36,7 @@ public class Authorization extends AppCompatActivity {
             UserData user = new UserData(emailEditText.getText().toString(), passwordEditText.getText().toString());
             UserData.currentLogin = user.login;
             UserData.currentPassword = user.password;
+            //UserData.currentIdUser = user.get
             if (isOnline()) {
                 authenticateUser(user);
             } else {

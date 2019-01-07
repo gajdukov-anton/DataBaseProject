@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +38,6 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         setContentView(R.layout.activity_flight);
 
         getDataFromIntent();
-        initData();
         displayFlightInformation();
         //createRecyclerView();
         createRecyclerViewWithTickets(idFlight);
@@ -50,7 +51,7 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
             flight = bundle.getParcelable("flight");
 
         } catch (NullPointerException e) {
-             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -127,8 +128,6 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
             public void onButtonClick(int position) {
                 createDialogFragment(position);
             }
-
-
         };
         adapter.setCallback(adapterListener);
         recyclerView.setAdapter(adapter);
@@ -138,36 +137,36 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         this.choosenTicket = position;
         BookingDialogFragment dialog = new BookingDialogFragment();
         dialog.show(getSupportFragmentManager(), "custom");
-
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText dialogName = dialog.getDialog().findViewById(R.id.dialog_name);
         EditText dialogSecondName = dialog.getDialog().findViewById(R.id.dialog_second_name);
+        //RadioButton dialogSex = dialog.getDialog().findViewById(R.id.sexRadioButton);
+        EditText dialogDate = dialog.getDialog().findViewById(R.id.dialog_date_of_birth);
         bookedTickets.add(tickets.get(choosenTicket));
-        bookedTickets.get(bookedTickets.size() - 1).setName(dialogName.getText().toString());
-        bookedTickets.get(bookedTickets.size() - 1).setName(dialogSecondName.getText().toString());
+        bookedTickets.get(bookedTickets.size() - 1).setFirstName(dialogName.getText().toString());
+        bookedTickets.get(bookedTickets.size() - 1).setLastName(dialogSecondName.getText().toString());
+        bookedTickets.get(bookedTickets.size() - 1).setSex(getSexFromRadioButton(dialog.getDialog().findViewById(R.id.male),
+                dialog.getDialog().findViewById(R.id.female)));
+        bookedTickets.get(bookedTickets.size() - 1).setDateOfBirth(dialogDate.getText().toString());
     }
 
+    private String getSexFromRadioButton(View viewMale, View viewFemale) {
+        RadioButton maleButton = (RadioButton) viewMale;
+        RadioButton femaleButton = (RadioButton) viewFemale;
+        if (maleButton.isChecked()) {
+            return "male";
+        } else if (femaleButton.isChecked()) {
+            return "female";
+        } else {
+            return "";
+        }
+    }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-    }
-
-    private void initData() {
-        tickets.add(new Ticket(1, 1200, "econom"));
-        tickets.add(new Ticket(12, 1900, "econom"));
-        tickets.add(new Ticket(15, 2500, "econom"));
-        tickets.add(new Ticket(14, 3000, "econom"));
-        tickets.add(new Ticket(30, 7500, "medium"));
-        tickets.add(new Ticket(32, 8500, "medium"));
-        tickets.add(new Ticket(36, 8000, "medium"));
-        tickets.add(new Ticket(31, 7500, "medium"));
-        tickets.add(new Ticket(39, 12000, "medium"));
-        tickets.add(new Ticket(50, 20000, "business"));
-        tickets.add(new Ticket(53, 23000, "business"));
-        tickets.add(new Ticket(55, 27000, "business"));
     }
 
     @Override

@@ -5,8 +5,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Ticket  implements Parcelable {
-    private String userName;
-    private String userSecondName;
+    private String firstName;
+    private String lastName;
+    private String sex = "female";
+    private String dateOfBirth = "12.08.12";
     private String name;
     private int idTicket = -1;
     private int idClass = -1;
@@ -24,8 +26,8 @@ public class Ticket  implements Parcelable {
     }
 
     public Ticket(String name, String secondName) {
-        this.userName = name;
-        this.userSecondName = secondName;
+        this.firstName = name;
+        this.lastName = secondName;
     }
 
     public Ticket(int numberTicket, double price, String classTicket) {
@@ -35,8 +37,8 @@ public class Ticket  implements Parcelable {
     }
 
     public Ticket(String name, String secondName, Flight flight) {
-        this.userName = name;
-        this.userSecondName = secondName;
+        this.firstName = name;
+        this.lastName = secondName;
 
     }
 
@@ -48,8 +50,8 @@ public class Ticket  implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         Bundle bundle = new Bundle();
-        bundle.putString("userName", userName);
-        bundle.putString("userSecondName", userSecondName);
+        bundle.putString("firstName", firstName);
+        bundle.putString("lastName", lastName);
         bundle.putString("name", name);
         bundle.putInt("idTicket", idTicket);
         bundle.putString("classDescription", classDescription);
@@ -59,6 +61,8 @@ public class Ticket  implements Parcelable {
         bundle.putString("classTicket", classTicket);
         bundle.putString("pointOfDeparture", pointOfDeparture);
         bundle.putString("pointOfDestination", pointOfDestination);
+        bundle.putString("sex", sex);
+        bundle.putString("dateOfBirth", dateOfBirth);
         parcel.writeBundle(bundle);
     }
 
@@ -74,8 +78,8 @@ public class Ticket  implements Parcelable {
 
     public Ticket(Parcel parcel) {
         Bundle bundle = parcel.readBundle();
-        this.userName = bundle.getString("userName");
-        this.userSecondName = bundle.getString("userSecondName");
+        this.firstName = bundle.getString("firstName");
+        this.lastName = bundle.getString("lastName");
         this.name = bundle.getString("name");
         this.idTicket = bundle.getInt("idTicket");
         this.classDescription = bundle.getString("classDescription");
@@ -85,6 +89,8 @@ public class Ticket  implements Parcelable {
         this.classTicket = bundle.getString("classTicket");
         this.pointOfDeparture = bundle.getString("pointOfDeparture");
         this.pointOfDestination = bundle.getString("pointOfDestination");
+        this.sex = bundle.getString("sex");
+        this.dateOfBirth = bundle.getString("dateOfBirth");
     }
 
     public boolean isReadyToUpload() {
@@ -120,8 +126,8 @@ public class Ticket  implements Parcelable {
         }
     }
 
-    public void setUserName(String name) {
-        this.userName = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
     public void setPrice(double price) {
@@ -176,16 +182,36 @@ public class Ticket  implements Parcelable {
         return numberTicket;
     }
 
-    public void setUserSecondName(String secondName) {
-        this.userSecondName = secondName;
+    public void setLastName(String secondName) {
+        this.lastName = secondName;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setIdClass(int idClass) {
+        this.idClass = idClass;
     }
 
-    public String getUserSecondName() {
-        return userSecondName;
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getName() {

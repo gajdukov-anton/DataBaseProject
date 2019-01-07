@@ -5,6 +5,7 @@ public class UserData {
     public String password;
     public static String currentLogin;
     public static String currentPassword;
+    public static int currentIdUser;
 
     public UserData(String login, String password) {
         this.login = login;

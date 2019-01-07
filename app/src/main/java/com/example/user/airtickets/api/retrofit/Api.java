@@ -46,16 +46,19 @@ public interface Api {
     @POST("/user/change")
     Call<ResponseFromServer> postEditUser(@Body User user);
 
-    @POST("/Book-tickets")
+    @POST("/book-tickets")
     Call<ResponseFromServer> postBooking(@Body Booking booking);
 
     @POST("/admin/add-flight")
     Call<ResponseFromServer> postNewFlight(@Body FlightForUpload flight);
 
-    @POST("//")
-    Call<List<Order>> downloadOrders(@Body UserData userData);
+    @GET("/user/booking")
+    Call<List<Order>> downloadOrders(@Query("login") String login, @Query("password") String password);
 
     @POST("/admin/add-ticket")
     Call<ResponseFromServer> postNewTicket(@Body TicketForUpload ticket);
 
+    @FormUrlEncoded
+    @POST("/booking/confirm")
+    Call<ResponseFromServer> postConFirmOrderToServer(@Field("idBooking") String idBooking);
 }

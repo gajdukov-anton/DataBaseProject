@@ -51,7 +51,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         holder.departureInfoView.setText(flight.getPointOfDeparture());
         holder.destinationInfoView.setText(flight.getPointOfDestination());
         holder.companyInfoView.setText(flight.getCompanyName());
-        holder.inTravelinfoView.setText(flight.getTimeInTravel());
+        holder.inTravelinfoView.setText(flight.getTimeOfDeparture());
         if (buttonText != null) {
             holder.button.setText(buttonText);
         }

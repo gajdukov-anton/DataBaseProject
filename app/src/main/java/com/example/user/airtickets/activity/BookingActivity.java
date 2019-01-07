@@ -76,6 +76,7 @@ public class BookingActivity extends AppCompatActivity implements PostBookingDia
 
     public void sendBooking(View view) {
         if (tickets.size() > 0) {
+            Toast.makeText(this, booking.getTickets().get(0).getSex(), Toast.LENGTH_LONG).show();
             ServerApi.PostBookingListener listener = new ServerApi.PostBookingListener() {
                 @Override
                 public void onUploadBooking(ResponseFromServer responseFromServer) {
@@ -86,7 +87,7 @@ public class BookingActivity extends AppCompatActivity implements PostBookingDia
 
                 @Override
                 public void onFailure(String request) {
-                    Toast.makeText(BookingActivity.this, booking.getNumberCard(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(BookingActivity.this, "Не удалось: " + request, Toast.LENGTH_LONG).show();
                 }
             };
             serverApi.setPostBookingListener(listener);
@@ -105,8 +106,8 @@ public class BookingActivity extends AppCompatActivity implements PostBookingDia
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText numberCard = dialog.getDialog().findViewById(R.id.dialog_number_card);
-        booking.setNumberCard(numberCard.getText().toString());
-        serverApi.postBookingToServer(this, booking);
+        booking.setCard(numberCard.getText().toString());
+        serverApi.postBookingToServer(booking);
     }
 
 
