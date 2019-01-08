@@ -1,9 +1,13 @@
 package com.example.user.airtickets.api.retrofit;
 
+import com.example.user.airtickets.models.Airport;
 import com.example.user.airtickets.models.Booking;
+import com.example.user.airtickets.models.Class;
+import com.example.user.airtickets.models.Company;
 import com.example.user.airtickets.models.Flight;
 import com.example.user.airtickets.models.FlightForUpload;
 import com.example.user.airtickets.models.Order;
+import com.example.user.airtickets.models.Plane;
 import com.example.user.airtickets.models.TicketForUpload;
 import com.example.user.airtickets.models.User;
 import com.example.user.airtickets.models.ResponseFromServer;
@@ -61,4 +65,23 @@ public interface Api {
     @FormUrlEncoded
     @POST("/booking/confirm")
     Call<ResponseFromServer> postConFirmOrderToServer(@Field("idBooking") String idBooking);
+
+    @FormUrlEncoded
+    @POST("/reject/booking")
+    Call<ResponseFromServer> postRejectOrderToServer(@Field("idBooking") String idBooking, @Field("login") String login, @Field("password") String password);
+
+    @GET("/ticket/check-status")
+    Call<ResponseFromServer> checkStatusTicket(@Query("idTicket") String idTicket);
+
+    @GET("/planes")
+    Call<List<Plane>> getAllPlanesFromServer();
+
+    @GET("/classes")
+    Call<List<Class>> getAllClassesFromServer();
+
+    @GET("/airports")
+    Call<List<Airport>> getAllAirports();
+
+    @GET("/companies")
+    Call<List<Company>> getAllCompanies();
 }

@@ -17,6 +17,8 @@ import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.models.ResponseFromServer;
 import com.example.user.airtickets.models.UserData;
 
+import java.util.ArrayList;
+
 public class Authorization extends AppCompatActivity {
     private final static String TAG = "Authorization";
     private boolean isPassed = false;
@@ -36,6 +38,7 @@ public class Authorization extends AppCompatActivity {
             UserData user = new UserData(emailEditText.getText().toString(), passwordEditText.getText().toString());
             UserData.currentLogin = user.login;
             UserData.currentPassword = user.password;
+            UserData.bookedTickets = new ArrayList<>();
             //UserData.currentIdUser = user.get
             if (isOnline()) {
                 authenticateUser(user);

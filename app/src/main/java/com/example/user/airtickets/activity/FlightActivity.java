@@ -19,7 +19,9 @@ import com.example.user.airtickets.adapter.TicketAdapter;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.fragment.BookingDialogFragment;
 import com.example.user.airtickets.models.Flight;
+import com.example.user.airtickets.models.ResponseFromServer;
 import com.example.user.airtickets.models.Ticket;
+import com.example.user.airtickets.models.UserData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
     private int choosenTicket;
     private Flight flight;
     private int idFlight;
+    private boolean isAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +42,9 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
 
         getDataFromIntent();
         displayFlightInformation();
-        //createRecyclerView();
         createRecyclerViewWithTickets(idFlight);
         createBackButton();
+        Toast.makeText(this, String.valueOf(UserData.bookedTickets.size()), Toast.LENGTH_SHORT).show();
     }
 
     private void getDataFromIntent() {
@@ -97,36 +100,18 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         serverApi.downloadTickets(this, idFlight);
     }
 
-    private void createRecyclerView() { //не забыть удалить
-        this.tickets = tickets;
+    private void createRecyclerView(final List<Ticket> tickets) {
+        this.tickets = removeBookedTickets(tickets);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listTicket);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
 
-        TicketAdapter adapter = new TicketAdapter(this, tickets, flight);
+        TicketAdapter adapter = new TicketAdapter(this, this.tickets, flight);
         TicketAdapter.Callback adapterListener = new TicketAdapter.Callback() {
             @Override
             public void onButtonClick(int position) {
-                createDialogFragment(position);
-            }
-
-
-        };
-        adapter.setCallback(adapterListener);
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void createRecyclerView(List<Ticket> tickets) {
-        this.tickets = tickets;
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listTicket);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(llm);
-
-        TicketAdapter adapter = new TicketAdapter(this, tickets, flight);
-        TicketAdapter.Callback adapterListener = new TicketAdapter.Callback() {
-            @Override
-            public void onButtonClick(int position) {
-                createDialogFragment(position);
+               // createDialogFragment(position);
+                checkStatusTicket(tickets.get(position).getIdTicket(), position);
             }
         };
         adapter.setCallback(adapterListener);
@@ -139,11 +124,31 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         dialog.show(getSupportFragmentManager(), "custom");
     }
 
+    private List<Ticket> removeBookedTickets(List<Ticket> tickets) {
+        List<Ticket> treatmentTickets = new ArrayList<>();
+        if (UserData.bookedTickets.isEmpty()) {
+            return tickets;
+        }
+        for (Ticket ticket : tickets) {
+            boolean isContain = false;
+            for (Ticket bookedTicket : UserData.bookedTickets) {
+                if (ticket.getIdTicket() == bookedTicket.getIdTicket() &&ticket.getName() == ticket.getName()
+                        && ticket.getPrice() == bookedTicket.getPrice()) {
+                    isContain = true;
+                    break;
+                }
+            }
+            if (!isContain) {
+                treatmentTickets.add(ticket);
+            }
+        }
+        return treatmentTickets;
+    }
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText dialogName = dialog.getDialog().findViewById(R.id.dialog_name);
         EditText dialogSecondName = dialog.getDialog().findViewById(R.id.dialog_second_name);
-        //RadioButton dialogSex = dialog.getDialog().findViewById(R.id.sexRadioButton);
         EditText dialogDate = dialog.getDialog().findViewById(R.id.dialog_date_of_birth);
         bookedTickets.add(tickets.get(choosenTicket));
         bookedTickets.get(bookedTickets.size() - 1).setFirstName(dialogName.getText().toString());
@@ -151,6 +156,30 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         bookedTickets.get(bookedTickets.size() - 1).setSex(getSexFromRadioButton(dialog.getDialog().findViewById(R.id.male),
                 dialog.getDialog().findViewById(R.id.female)));
         bookedTickets.get(bookedTickets.size() - 1).setDateOfBirth(dialogDate.getText().toString());
+        UserData.bookedTickets.add(tickets.get(choosenTicket));
+        createRecyclerView(tickets);
+    }
+
+    private void checkStatusTicket(int id, final int position) {
+        ServerApi serverApi = ServerApi.getInstance();
+        ServerApi.CheckStatusTicketListener listener = new ServerApi.CheckStatusTicketListener() {
+            @Override
+            public void onSuccessful(ResponseFromServer responseFromServer) {
+                if (responseFromServer.status.equals("not_booked")) {
+                    createDialogFragment(position);
+                    Toast.makeText(FlightActivity.this, responseFromServer.status, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FlightActivity.this, responseFromServer.status, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(FlightActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        };
+        serverApi.setCheckStatusTicketListener(listener);
+        serverApi.checkStatusTicket(id);
     }
 
     private String getSexFromRadioButton(View viewMale, View viewFemale) {

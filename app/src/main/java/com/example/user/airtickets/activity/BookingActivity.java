@@ -61,6 +61,7 @@ public class BookingActivity extends AppCompatActivity implements PostBookingDia
         BookingAdapter.Callback adapterListener = new BookingAdapter.Callback() {
             @Override
             public void onButtonRemoveClick(int position) {
+                UserData.bookedTickets.remove(position);
                 tickets.remove(position);
                 createRecyclerViewWithTickets();
             }
@@ -82,6 +83,7 @@ public class BookingActivity extends AppCompatActivity implements PostBookingDia
                 public void onUploadBooking(ResponseFromServer responseFromServer) {
                     Toast.makeText(BookingActivity.this, responseFromServer.status, Toast.LENGTH_SHORT).show();
                     tickets.clear();
+                    UserData.bookedTickets.clear();
                     finish();
                 }
 

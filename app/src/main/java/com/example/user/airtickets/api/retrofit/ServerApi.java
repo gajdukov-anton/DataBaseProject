@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.example.user.airtickets.activity.AllOrdersActivity;
 import com.example.user.airtickets.activity.Authorization;
-import com.example.user.airtickets.activity.BookingActivity;
 import com.example.user.airtickets.activity.FlightActivity;
 import com.example.user.airtickets.activity.ProfileActivity;
 import com.example.user.airtickets.models.Booking;
@@ -40,6 +39,8 @@ public class ServerApi {
     private UploadNewTicketListener uploadNewTicketListener;
     private DownLoadFlightsByLocationListener downLoadFlightsByLocationListener;
     private PostConfirmOrderToServerListener postConfirmOrderToServerListener;
+    private PostRejectOrderToServerListener postRejectOrderToServerListener;
+    private CheckStatusTicketListener checkStatusTicketListener;
     static private Api api;
     static private Retrofit retrofit;
 
@@ -115,7 +116,13 @@ public class ServerApi {
         void onFailure(String message);
     }
 
-    public interface PostCancelOrderToServerListener {
+    public interface PostRejectOrderToServerListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface CheckStatusTicketListener {
         void onSuccessful(ResponseFromServer responseFromServer);
 
         void onFailure(String message);
@@ -167,6 +174,14 @@ public class ServerApi {
 
     public void setDownLoadFlightsByLocationListener(DownLoadFlightsByLocationListener downLoadFlightsByLocation) {
         this.downLoadFlightsByLocationListener = downLoadFlightsByLocation;
+    }
+
+    public void setPostRejectOrderToServerListener(PostRejectOrderToServerListener postRejectOrderToServerListener) {
+        this.postRejectOrderToServerListener = postRejectOrderToServerListener;
+    }
+
+    public void setCheckStatusTicketListener(CheckStatusTicketListener checkStatusTicketListener) {
+        this.checkStatusTicketListener = checkStatusTicketListener;
     }
 
     private ServerApi() {
@@ -407,15 +422,48 @@ public class ServerApi {
             @Override
             public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
                 if (response.isSuccessful()) {
-                    ResponseFromServer responseFromServer = response.body();
-                    responseFromServer.status += String.valueOf(idBooking);
-                    postConfirmOrderToServerListener.onSuccessful(responseFromServer);
+                    postConfirmOrderToServerListener.onSuccessful(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseFromServer> call, Throwable t) {
                 postConfirmOrderToServerListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void postRejectOrderToServer(final int idBooking, String login, String password) {
+        Call<ResponseFromServer> call = api.postRejectOrderToServer(String.valueOf(idBooking), login, password);
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    postRejectOrderToServerListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                postRejectOrderToServerListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+
+    public void checkStatusTicket(final int idTicket) {
+        Call<ResponseFromServer> call = api.checkStatusTicket(String.valueOf(idTicket));
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    checkStatusTicketListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                checkStatusTicketListener.onFailure(t.getMessage());
             }
         });
     }

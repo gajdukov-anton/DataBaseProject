@@ -13,6 +13,7 @@ import com.example.user.airtickets.adapter.OrderAdapter;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.models.Order;
 import com.example.user.airtickets.models.ResponseFromServer;
+import com.example.user.airtickets.models.User;
 import com.example.user.airtickets.models.UserData;
 
 import java.util.ArrayList;
@@ -62,7 +63,8 @@ public class AllOrdersActivity extends AppCompatActivity {
 
             @Override
             public void cancelOrder(int id) {
-                Toast.makeText(AllOrdersActivity.this, "cancel", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AllOrdersActivity.this, "cancel", Toast.LENGTH_SHORT).show();
+                rejectOrder(id);
             }
         };
         adapter.setCallback(adapterListener);
@@ -85,6 +87,24 @@ public class AllOrdersActivity extends AppCompatActivity {
         };
         serverApi.setPostConfirmOrderToServerListener(listener);
         serverApi.postConfirmOrderToServer(id);
+    }
+
+    private void rejectOrder(int id) {
+        ServerApi serverApi = ServerApi.getInstance();
+        ServerApi.PostRejectOrderToServerListener listener = new ServerApi.PostRejectOrderToServerListener() {
+            @Override
+            public void onSuccessful(ResponseFromServer responseFromServer) {
+                Toast.makeText(AllOrdersActivity.this, responseFromServer.status, Toast.LENGTH_LONG).show();
+                createRecyclerViewWithOrders(new UserData(UserData.currentLogin, UserData.currentPassword));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(AllOrdersActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+        };
+        serverApi.setPostRejectOrderToServerListener(listener);
+        serverApi.postRejectOrderToServer(id, UserData.currentLogin, UserData.currentPassword);
     }
 
     private void createBackButton() {
