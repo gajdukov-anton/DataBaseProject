@@ -8,10 +8,14 @@ import com.example.user.airtickets.activity.AllOrdersActivity;
 import com.example.user.airtickets.activity.Authorization;
 import com.example.user.airtickets.activity.FlightActivity;
 import com.example.user.airtickets.activity.ProfileActivity;
+import com.example.user.airtickets.models.Airport;
 import com.example.user.airtickets.models.Booking;
+import com.example.user.airtickets.models.Class;
+import com.example.user.airtickets.models.Company;
 import com.example.user.airtickets.models.Flight;
 import com.example.user.airtickets.models.FlightForUpload;
 import com.example.user.airtickets.models.Order;
+import com.example.user.airtickets.models.Plane;
 import com.example.user.airtickets.models.TicketForUpload;
 import com.example.user.airtickets.models.User;
 import com.example.user.airtickets.models.ResponseFromServer;
@@ -41,6 +45,10 @@ public class ServerApi {
     private PostConfirmOrderToServerListener postConfirmOrderToServerListener;
     private PostRejectOrderToServerListener postRejectOrderToServerListener;
     private CheckStatusTicketListener checkStatusTicketListener;
+    private GetAllClassesListener getAllClassesListener;
+    private GetAllAirportsListener getAllAirportsListener;
+    private GetAllCompaniesListener getAllCompaniesListener;
+    private GetAllPlanesListener getAllPlanesListener;
     static private Api api;
     static private Retrofit retrofit;
 
@@ -128,6 +136,30 @@ public class ServerApi {
         void onFailure(String message);
     }
 
+    public interface GetAllClassesListener {
+        void onSuccessful(List<Class> classes);
+
+        void onFailure(String message);
+    }
+
+    public interface GetAllPlanesListener {
+        void onSuccessful(List<Plane> planes);
+
+        void onFailure(String message);
+    }
+
+    public interface GetAllCompaniesListener {
+        void onSuccessful(List<Company> companies);
+
+        void onFailure(String message);
+    }
+
+    public interface GetAllAirportsListener {
+        void onSuccessful(List<Airport> airports);
+
+        void onFailure(String message);
+    }
+
     public void setRegistrationListener(RegistrationListener registrationListener) {
         this.registrationListener = registrationListener;
     }
@@ -182,6 +214,22 @@ public class ServerApi {
 
     public void setCheckStatusTicketListener(CheckStatusTicketListener checkStatusTicketListener) {
         this.checkStatusTicketListener = checkStatusTicketListener;
+    }
+
+    public void setGetAllClassesListener(GetAllClassesListener getAllClassesListener) {
+        this.getAllClassesListener = getAllClassesListener;
+    }
+
+    public void setGetAllAirportsListener(GetAllAirportsListener getAllAirportsListener) {
+        this.getAllAirportsListener = getAllAirportsListener;
+    }
+
+    public void setGetAllCompaniesListener(GetAllCompaniesListener getAllCompaniesListener) {
+        this.getAllCompaniesListener = getAllCompaniesListener;
+    }
+
+    public void setGetAllPlanesListener(GetAllPlanesListener getAllPlanesListener) {
+        this.getAllPlanesListener = getAllPlanesListener;
     }
 
     private ServerApi() {
@@ -416,7 +464,7 @@ public class ServerApi {
     }
 
     public void postConfirmOrderToServer(final int idBooking) {
-       // Toast.makeText(AllOrdersActivity.this, idBooking);
+        // Toast.makeText(AllOrdersActivity.this, idBooking);
         Call<ResponseFromServer> call = api.postConFirmOrderToServer(String.valueOf(idBooking));
         call.enqueue(new Callback<ResponseFromServer>() {
             @Override
@@ -467,4 +515,73 @@ public class ServerApi {
             }
         });
     }
+
+    public void getAllClasses() {
+        Call<List<Class>> call = api.getAllClassesFromServer();
+        call.enqueue(new Callback<List<Class>>() {
+            @Override
+            public void onResponse(Call<List<Class>> call, Response<List<Class>> response) {
+                if (response.isSuccessful()) {
+                    getAllClassesListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Class>> call, Throwable t) {
+                getAllClassesListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getAllPlanes() {
+        Call<List<Plane>> call = api.getAllPlanesFromServer();
+        call.enqueue(new Callback<List<Plane>>() {
+            @Override
+            public void onResponse(Call<List<Plane>> call, Response<List<Plane>> response) {
+                if (response.isSuccessful()) {
+                    getAllPlanesListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Plane>> call, Throwable t) {
+                getAllPlanesListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getAllCompanies() {
+        Call<List<Company>> call = api.getAllCompaniesFromServer();
+        call.enqueue(new Callback<List<Company>>() {
+            @Override
+            public void onResponse(Call<List<Company>> call, Response<List<Company>> response) {
+                if (response.isSuccessful()) {
+                    getAllCompaniesListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Company>> call, Throwable t) {
+                getAllCompaniesListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getAllAirports() {
+        Call<List<Airport>> call = api.getAllAirportsFromServer();
+        call.enqueue(new Callback<List<Airport>>() {
+            @Override
+            public void onResponse(Call<List<Airport>> call, Response<List<Airport>> response) {
+                if (response.isSuccessful()) {
+                    getAllAirportsListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Airport>> call, Throwable t) {
+                getAllAirportsListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
 }

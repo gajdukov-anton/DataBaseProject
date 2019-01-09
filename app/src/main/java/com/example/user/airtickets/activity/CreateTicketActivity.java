@@ -9,20 +9,30 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.api.retrofit.ServerApi;
+import com.example.user.airtickets.models.AdminData;
+import com.example.user.airtickets.models.Class;
 import com.example.user.airtickets.models.FlightForUpload;
 import com.example.user.airtickets.models.ResponseFromServer;
 import com.example.user.airtickets.models.Ticket;
 import com.example.user.airtickets.models.TicketForUpload;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateTicketActivity extends AppCompatActivity {
 
     private boolean isButtonPassed = false;
     private int flightId;
+    private int currentIdClass;
+    private List<String> idClassesList = getIdClassesList(AdminData.getInstance().getClassList());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +40,35 @@ public class CreateTicketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_ticket);
         Bundle arguments = getIntent().getExtras();
         flightId = arguments.getInt("idFlight");
-        //createBackButton();
+        createSpinner();
+    }
+
+    private List<String> getIdClassesList(List<Class> classes) {
+        List<String> idClasses = new ArrayList<>();
+        for (Class classTicket : classes) {
+            idClasses.add(String.valueOf(classTicket.getIdClass()));
+        }
+        return idClasses;
+    }
+
+    private void createSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                getIdClassesList(AdminData.getInstance().getClassList()));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner spinner = (Spinner) findViewById(R.id.idClassesSpinner);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               currentIdClass = Integer.valueOf(idClassesList.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        currentIdClass = Integer.valueOf(idClassesList.get(0));
     }
 
     private void createBackButton() {
@@ -55,7 +93,7 @@ public class CreateTicketActivity extends AppCompatActivity {
             if (isOnline()) {
                 TicketForUpload ticket = new TicketForUpload();
                 ticket.setIdFlight(flightId);
-                ticket.setIdClass(getValueFromEditText(R.id.idClassEditText));
+                ticket.setIdClass(currentIdClass);
                 ticket.setPrice(getValueFromEditText(R.id.priceEditText));
                 ticket.setDescription(getValueFromEditText(R.id.descriptionEditText));
                 ticket.setPlaceNumber(getValueFromEditText(R.id.placeNumberEditText));
@@ -65,8 +103,7 @@ public class CreateTicketActivity extends AppCompatActivity {
                     Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_SHORT).show();
                     isButtonPassed = false;
                 }
-            }
-            else {
+            } else {
                 isButtonPassed = false;
                 Toast.makeText(CreateTicketActivity.this, getResources().getString(R.string.online_error), Snackbar.LENGTH_LONG).show();
             }

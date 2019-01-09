@@ -13,7 +13,7 @@ public class User implements Parcelable {
     private String lastName;
     private String dateOfBirth = "2012-12-12";
     private String sex;
-    private String address = "";
+    private String address = "Москва";
     private String status = "user";
     private String urlImage = "";
     private String newPassword = "123";

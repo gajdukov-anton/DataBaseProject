@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.user.airtickets.R;
+import com.example.user.airtickets.models.AdminData;
 
 public class AdminMenuActivity extends AppCompatActivity {
 
@@ -13,7 +14,7 @@ public class AdminMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_menu);
-
+        AdminData.getInstance();
     }
 
     public void startMainActivity(View view) {

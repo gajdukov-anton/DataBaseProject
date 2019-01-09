@@ -80,8 +80,8 @@ public interface Api {
     Call<List<Class>> getAllClassesFromServer();
 
     @GET("/airports")
-    Call<List<Airport>> getAllAirports();
+    Call<List<Airport>> getAllAirportsFromServer();
 
     @GET("/companies")
-    Call<List<Company>> getAllCompanies();
+    Call<List<Company>> getAllCompaniesFromServer();
 }

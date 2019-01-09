@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.CreateFlightActivity">
 
-    <Spinner
+    <!--<EditText
         android:id="@+id/idPlaneEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -30,7 +30,50 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"/>-->
+
+    <TextView
+        android:id="@+id/idPlainTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Самолёт рейса: "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/idPlaneSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/idPlainTextView"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp">
+    </Spinner>
+
+    <TextView
+        android:id="@+id/idAirportTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Аэропорт рейса: "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/idPlaneSpinner"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/idAirportSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/idAirportTextView"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp">
+
+    </Spinner>
 
     <EditText
         android:id="@+id/pointOfDepEditText"
@@ -39,7 +82,7 @@
         android:inputType="text"
         android:hint="pointOfDeparture"
 
-        app:layout_constraintTop_toBottomOf="@id/idAirportEditText"
+        app:layout_constraintTop_toBottomOf="@id/idAirportSpinner"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
