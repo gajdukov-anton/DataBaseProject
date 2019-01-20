@@ -41,7 +41,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
 
     @Override
     public FlightAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.flight_cardview, parent, false);
+        View view = inflater.inflate(R.layout.cardview_flight, parent, false);
         return new ViewHolder(view);
     }
 
@@ -51,7 +51,8 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         holder.departureInfoView.setText(flight.getPointOfDeparture());
         holder.destinationInfoView.setText(flight.getPointOfDestination());
         holder.companyInfoView.setText(flight.getCompanyName());
-        holder.inTravelinfoView.setText(flight.getTimeOfDeparture());
+      //  holder.inTravelinfoView.setText(flight.getTimeOfDeparture().substring(0, flight.getTimeOfDeparture().length() - 5));
+        holder.inTravelinfoView.setText(flight.getFormattedTimeOfDeparture());
         if (buttonText != null) {
             holder.button.setText(buttonText);
         }

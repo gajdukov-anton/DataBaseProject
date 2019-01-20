@@ -33,7 +33,7 @@
     <string name="cancelBook">Отменить</string>
     <string name="sex">Пол</string>
     <string name="classTicket">Класс</string>
-    <string name="numberTicket">Номер места</string>
+    <string name="placeNumber">Номер места</string>
     <string name="moreButton">Подробнее</string>
     <string name="editProfileButton">РЕДАКТИРОВАТЬ</string>
     <string name="postButton">ОТПРАВИТЬ</string>

@@ -1,4 +1,4 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.user;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.user.airtickets.R;
+import com.example.user.airtickets.activity.user.EditProfileActivity;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.models.User;
 import com.example.user.airtickets.models.UserData;
@@ -58,7 +59,8 @@ public class ProfileActivity extends AppCompatActivity {
         setStringToTextView(R.id.nameViewProfile, "Имя:  " + user.getFirstName());
         setStringToTextView(R.id.secondNameViewProfile, "Фамилия: " + user.getLastName());
         setStringToTextView(R.id.loginViewProfile, "Логин: " + user.getLogin());
-        setStringToTextView(R.id.dateOfBirthViewProfile, "Дата рождения: " + user.getDateOfBirth());
+        //setStringToTextView(R.id.dateOfBirthViewProfile, "Дата рождения: " + user.getDateOfBirth().substring(0, user.getDateOfBirth().length() - 5));
+        setStringToTextView(R.id.dateOfBirthViewProfile, "Дата рождения: " + user.getFormattedDateOfBirt());
         setStringToTextView(R.id.sexViewProfile, "Пол: " + user.getSex());
         downloadImageToImageView(R.id.imageProfile, user);
     }
@@ -78,7 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
         if (user.getUrlImage() == null) {
             imageView.setImageResource(R.drawable.no_photo);
         } else {
-          //  Toast.makeText(this, user.getUrlImage(), Toast.LENGTH_SHORT).show();
             Glide.with(this)
                     .load(user.getUrlImage())
                     .into(imageView);

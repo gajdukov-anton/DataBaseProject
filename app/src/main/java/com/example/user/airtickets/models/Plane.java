@@ -2,11 +2,15 @@ package com.example.user.airtickets.models;
 
 public class Plane {
     private int idPlane;
-    private String type;
-    private int idCompany;
+    private String type = "";
+    private int idCompany = -1;
 
     public Plane() {
 
+    }
+
+    public boolean isReadyToUpload() {
+        return idCompany != -1 && !type.equals("");
     }
 
     public void setIdPlane(int idPlane) {

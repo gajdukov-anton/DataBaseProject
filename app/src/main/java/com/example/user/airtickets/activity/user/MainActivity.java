@@ -1,4 +1,4 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.user;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity
         ServerApi.DownLoadFlightsByLocationListener listener = new ServerApi.DownLoadFlightsByLocationListener() {
             @Override
             public void onDownloadFlights(List<Flight> flights) {
-                Toast.makeText(MainActivity.this, "Lol", Toast.LENGTH_LONG).show();
                 createRecyclerView(flights);
             }
 
@@ -82,7 +81,6 @@ public class MainActivity extends AppCompatActivity
         ServerApi.DownLoadFlightsByLocationListener listener = new ServerApi.DownLoadFlightsByLocationListener() {
             @Override
             public void onDownloadFlights(List<Flight> flights) {
-                Toast.makeText(MainActivity.this, "Lol", Toast.LENGTH_LONG).show();
                 createRecyclerView(flights);
             }
 
@@ -204,7 +202,6 @@ public class MainActivity extends AppCompatActivity
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -213,7 +210,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            return true;
+            exitToAuthorization();
         }
         return super.onOptionsItemSelected(item);
     }

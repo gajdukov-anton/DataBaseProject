@@ -1,4 +1,4 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.user;
 
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
@@ -77,11 +77,9 @@ public class BookingActivity extends AppCompatActivity implements PostBookingDia
 
     public void sendBooking(View view) {
         if (tickets.size() > 0) {
-            Toast.makeText(this, booking.getTickets().get(0).getSex(), Toast.LENGTH_LONG).show();
             ServerApi.PostBookingListener listener = new ServerApi.PostBookingListener() {
                 @Override
                 public void onUploadBooking(ResponseFromServer responseFromServer) {
-                    Toast.makeText(BookingActivity.this, responseFromServer.status, Toast.LENGTH_SHORT).show();
                     tickets.clear();
                     UserData.bookedTickets.clear();
                     finish();

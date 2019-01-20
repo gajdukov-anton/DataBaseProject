@@ -4,10 +4,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.example.user.airtickets.activity.AllOrdersActivity;
-import com.example.user.airtickets.activity.Authorization;
-import com.example.user.airtickets.activity.FlightActivity;
-import com.example.user.airtickets.activity.ProfileActivity;
+import com.example.user.airtickets.activity.user.AllOrdersActivity;
+import com.example.user.airtickets.activity.user.Authorization;
+import com.example.user.airtickets.activity.user.ProfileActivity;
 import com.example.user.airtickets.models.Airport;
 import com.example.user.airtickets.models.Booking;
 import com.example.user.airtickets.models.Class;
@@ -49,6 +48,13 @@ public class ServerApi {
     private GetAllAirportsListener getAllAirportsListener;
     private GetAllCompaniesListener getAllCompaniesListener;
     private GetAllPlanesListener getAllPlanesListener;
+    private DeleteFlightListener deleteFlightListener;
+    private DeleteTicketListener deleteTicketListener;
+    private GetAllTicketListener getAllTicketListener;
+    private AddAirportListener addAirportListener;
+    private AddClassListener addClassListener;
+    private AddCompanyListener addCompanyListener;
+    private AddPlaneListener addPlaneListener;
     static private Api api;
     static private Retrofit retrofit;
 
@@ -76,6 +82,8 @@ public class ServerApi {
 
     public interface DownloadTicketsListener {
         void onDownloadedTickets(List<Ticket> tickets);
+
+        void onFailure(String message);
     }
 
     public interface DownloadUserListener {
@@ -160,6 +168,64 @@ public class ServerApi {
         void onFailure(String message);
     }
 
+    public interface DeleteFlightListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface DeleteTicketListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface GetAllTicketListener {
+        void onSuccessful(List<Ticket> tickets);
+
+        void onFailure(String message);
+    }
+
+    public interface AddClassListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface AddPlaneListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface AddAirportListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public interface AddCompanyListener {
+        void onSuccessful(ResponseFromServer responseFromServer);
+
+        void onFailure(String message);
+    }
+
+    public void setAddAirportListener(AddAirportListener addAirportListener) {
+        this.addAirportListener = addAirportListener;
+    }
+
+    public void setAddClassListener(AddClassListener addClassListener) {
+        this.addClassListener = addClassListener;
+    }
+
+    public void setAddCompanyListener(AddCompanyListener addCompanyListener) {
+        this.addCompanyListener = addCompanyListener;
+    }
+
+    public void setAddPlaneListener(AddPlaneListener addPlaneListener) {
+        this.addPlaneListener = addPlaneListener;
+    }
+
     public void setRegistrationListener(RegistrationListener registrationListener) {
         this.registrationListener = registrationListener;
     }
@@ -232,6 +298,18 @@ public class ServerApi {
         this.getAllPlanesListener = getAllPlanesListener;
     }
 
+    public void setDeleteFlightListener(DeleteFlightListener deleteFlightListener) {
+        this.deleteFlightListener = deleteFlightListener;
+    }
+
+    public void setDeleteTicketListener(DeleteTicketListener deleteTicketListener) {
+        this.deleteTicketListener = deleteTicketListener;
+    }
+
+    public void setGetAllTicketListener(GetAllTicketListener getAllTicketListener) {
+        this.getAllTicketListener = getAllTicketListener;
+    }
+
     private ServerApi() {
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://pure-taiga-64408.herokuapp.com")
@@ -246,7 +324,6 @@ public class ServerApi {
             @Override
             public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
                 if (response.isSuccessful()) {
-                    //   Toast.makeText(registrationActivity, "Successful", Snackbar.LENGTH_LONG).show();
                     ResponseFromServer info = response.body();
                     registrationListener.onNewUserUploaded(info);
                 }
@@ -266,7 +343,6 @@ public class ServerApi {
             public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
                 if (response.isSuccessful()) {
                     ResponseFromServer info = response.body();
-                    //  Toast.makeText(authorization, info.status, Snackbar.LENGTH_LONG).show();
                     authorizationListener.onAuthenticatedUser(info);
                 }
             }
@@ -274,7 +350,6 @@ public class ServerApi {
             @Override
             public void onFailure(Call<ResponseFromServer> call, Throwable t) {
                 authorizationListener.onFailure("Не удалось соединиться с сервером");
-                //Toast.makeText(authorization, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -298,7 +373,7 @@ public class ServerApi {
         });
     }
 
-    public void downloadTickets(final FlightActivity flightActivity, final int idFlight) {
+    public void downloadTickets(final AppCompatActivity flightActivity, final int idFlight) {
         final Call<List<Ticket>> newTickets = api.downloadTickets(idFlight);
         newTickets.enqueue(new Callback<List<Ticket>>() {
             @Override
@@ -311,7 +386,8 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<List<Ticket>> call, Throwable t) {
-                Toast.makeText(flightActivity, "Не удалось соединиться с сервером", Toast.LENGTH_SHORT).show();
+                downloadTicketsListener.onFailure(t.getMessage());
+                //Toast.makeText(flightActivity, "Билеты отсутствуют", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -321,7 +397,6 @@ public class ServerApi {
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                // Toast.makeText(profileActivity, response.toString(), Toast.LENGTH_SHORT).show();
                 if (response.isSuccessful()) {
                     User user = response.body();
 
@@ -350,7 +425,6 @@ public class ServerApi {
 
             @Override
             public void onFailure(Call<ResponseFromServer> call, Throwable t) {
-                //Toast.makeText(appCompatActivity, "Не удалось соединиться с сервером", Snackbar.LENGTH_LONG).show();
                 editUserListener.onFailure("Не удалось соединиться с сервером");
             }
         });
@@ -464,7 +538,6 @@ public class ServerApi {
     }
 
     public void postConfirmOrderToServer(final int idBooking) {
-        // Toast.makeText(AllOrdersActivity.this, idBooking);
         Call<ResponseFromServer> call = api.postConFirmOrderToServer(String.valueOf(idBooking));
         call.enqueue(new Callback<ResponseFromServer>() {
             @Override
@@ -584,4 +657,122 @@ public class ServerApi {
         });
     }
 
+    public void deleteFlight(int idFlight) {
+        Call<ResponseFromServer> call = api.deleteFlight(String.valueOf(idFlight));
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    deleteFlightListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                deleteFlightListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void deleteTicket(int idTicket) {
+        Call<ResponseFromServer> call = api.deleteTicket(String.valueOf(idTicket));
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    deleteTicketListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                deleteTicketListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getAllTicket(String login, String password, int id) {
+        Call<List<Ticket>> call = api.getAllTicketForFlight(login, password, String.valueOf(id));
+        call.enqueue(new Callback<List<Ticket>>() {
+            @Override
+            public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
+                if (response.isSuccessful()) {
+                    getAllTicketListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Ticket>> call, Throwable t) {
+                getAllTicketListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void addClass(Class newClass) {
+        Call<ResponseFromServer> call = api.addClass(newClass);
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    addClassListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                addClassListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void addPlane(Plane plane) {
+        Call<ResponseFromServer> call = api.addPlane(plane);
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    addPlaneListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                addPlaneListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public  void addAirport(Airport airport) {
+        Call<ResponseFromServer> call = api.addAirport(airport);
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    addAirportListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                addAirportListener.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void addCompany(Company company) {
+        Call<ResponseFromServer> call = api.addCompany(company);
+        call.enqueue(new Callback<ResponseFromServer>() {
+            @Override
+            public void onResponse(Call<ResponseFromServer> call, Response<ResponseFromServer> response) {
+                if (response.isSuccessful()) {
+                    addCompanyListener.onSuccessful(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFromServer> call, Throwable t) {
+                addCompanyListener.onFailure(t.getMessage());
+            }
+        });
+    }
 }

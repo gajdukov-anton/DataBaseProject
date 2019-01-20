@@ -1,4 +1,4 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.user;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +13,8 @@ import com.example.user.airtickets.adapter.OrderAdapter;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.models.Order;
 import com.example.user.airtickets.models.ResponseFromServer;
-import com.example.user.airtickets.models.User;
 import com.example.user.airtickets.models.UserData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AllOrdersActivity extends AppCompatActivity {
@@ -57,13 +55,11 @@ public class AllOrdersActivity extends AppCompatActivity {
         OrderAdapter.Callback adapterListener = new OrderAdapter.Callback() {
             @Override
             public void payOrder(int id) {
-                //Toast.makeText(AllOrdersActivity.this, "pay" + String.valueOf(orders.size()), Toast.LENGTH_SHORT).show();
                 confirmOrder(id);
             }
 
             @Override
             public void cancelOrder(int id) {
-                //Toast.makeText(AllOrdersActivity.this, "cancel", Toast.LENGTH_SHORT).show();
                 rejectOrder(id);
             }
         };

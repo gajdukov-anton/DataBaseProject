@@ -1,4 +1,4 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.user;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
+import com.example.user.airtickets.activity.admin.AdminMenuActivity;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.models.ResponseFromServer;
 import com.example.user.airtickets.models.UserData;
@@ -91,9 +92,7 @@ public class Authorization extends AppCompatActivity {
             startActivity(intent);
             this.finish();
         } else {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.login_error), Toast.LENGTH_SHORT);
-            toast.show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_error), Toast.LENGTH_SHORT).show();
         }
 
     }

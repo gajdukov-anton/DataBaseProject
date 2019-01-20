@@ -2,24 +2,25 @@ package com.example.user.airtickets.models;
 
 import android.widget.Toast;
 
+import java.util.Date;
+
 public class FlightForUpload {
     private int idPlane = -1;
     private int idAirport = -1;
     private String pointOfDeparture = "";
     private String description = "";
     private String pointOfDestination = "";
-    private String timeOfDeparture = "";
-    private String timeOfDestination = "";
+    private Date timeOfDeparture;
+    private Date timeOfDestination;
 
     public FlightForUpload() {
 
     }
 
-    public boolean isReadyToUpload() {
+    public boolean isAllMethodsFilled() {
         if (idAirport != -1 && idPlane != -1
-                && !pointOfDeparture.equals("") && !description.equals("")
-                && !pointOfDestination.equals("") && !timeOfDeparture.equals("")
-                && !timeOfDestination.equals("")) {
+                && !pointOfDeparture.equals("") && !pointOfDestination.equals("") && timeOfDeparture != null
+                && timeOfDestination != null) {
             return true;
         } else {
             return false;
@@ -46,11 +47,11 @@ public class FlightForUpload {
         return pointOfDestination;
     }
 
-    public String getTimeOfDeparture() {
+    public Date getTimeOfDeparture() {
         return timeOfDeparture;
     }
 
-    public String getTimeOfDestination() {
+    public Date getTimeOfDestination() {
         return timeOfDestination;
     }
 
@@ -90,11 +91,11 @@ public class FlightForUpload {
         this.pointOfDestination = pointOfDestination;
     }
 
-    public void setTimeOfDeparture(String timeOfDeparture) {
+    public void setTimeOfDeparture(Date timeOfDeparture) {
         this.timeOfDeparture = timeOfDeparture;
     }
 
-    public void setTimeOfDestination(String timeOfDestination) {
+    public void setTimeOfDestination(Date timeOfDestination) {
         this.timeOfDestination = timeOfDestination;
     }
 }

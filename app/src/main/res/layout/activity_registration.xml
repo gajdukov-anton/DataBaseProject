@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBackground"
-    tools:context=".activity.RegistrationActivity">
+    tools:context=".activity.user.RegistrationActivity">
 
     <EditText
         android:id="@+id/nameEditText"
@@ -44,7 +44,7 @@
         android:backgroundTint="@color/colorWhite"
         android:textColor="@color/colorWhite"
         android:inputType="textEmailAddress"
-        android:hint="@string/email"
+        android:hint="Login"
 
         app:layout_constraintTop_toBottomOf="@id/secondNameEditText"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -67,22 +67,69 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"/>
 
-    <EditText
-        android:id="@+id/dateOfBirthEditText"
+    <LinearLayout
+        android:id="@+id/setDateOfBirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorWhite"
-        android:textColor="@color/colorWhite"
-        android:inputType="date"
-        android:hint="@string/date_of_birth"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newPasswordEditText">
 
-        app:layout_constraintTop_toBottomOf="@id/newPasswordEditText"
+        <TextView
+            android:id="@+id/setDateOfBirthTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Дата рождения:"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/setDateOfBirthButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="setDateOfBirth"
+            android:text="Задать дату рождения"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setDateOfDestButton" />
+    </LinearLayout>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/sexRadioButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/setDateOfBirth"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp">
 
-    <EditText
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Пол:"/>
+
+        <RadioButton android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Муж"
+            android:checked="true"/>
+        <RadioButton android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Жен" />
+    </RadioGroup>
+
+
+    <!--<EditText
         android:id="@+id/sexEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,11 +138,11 @@
         android:inputType="text"
         android:hint="@string/sex"
 
-        app:layout_constraintTop_toBottomOf="@id/dateOfBirthEditText"
+        app:layout_constraintTop_toBottomOf="@id/setDateOfBirth"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"/>-->
 
     <Button
         android:id="@+id/SigInButton"
@@ -110,7 +157,7 @@
 
         android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sexEditText" />
+        app:layout_constraintTop_toBottomOf="@id/sexRadioButton" />
 
 
 

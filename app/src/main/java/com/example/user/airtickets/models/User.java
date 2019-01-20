@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class User implements Parcelable {
 
     private String login;
@@ -11,7 +15,7 @@ public class User implements Parcelable {
     private String password;
     private String firstName;
     private String lastName;
-    private String dateOfBirth = "2012-12-12";
+    private Date dateOfBirth;
     private String sex;
     private String address = "Москва";
     private String status = "user";
@@ -65,7 +69,7 @@ public class User implements Parcelable {
         bundle.putString("password", password);
         bundle.putString("firstName", firstName);
         bundle.putString("lastName", lastName);
-        bundle.putString("dateOfBirth", dateOfBirth);
+        bundle.putLong("dateOfBirth", dateOfBirth.getTime());
         bundle.putString("sex", sex);
         bundle.putString("address", address);
         bundle.putString("status", status);
@@ -89,7 +93,7 @@ public class User implements Parcelable {
         this.password = bundle.getString("password");
         this.firstName = bundle.getString("firstName");
         this.lastName = bundle.getString("lastName");
-        this.dateOfBirth = bundle.getString("dateOfBirth");
+        this.dateOfBirth = new Date(bundle.getLong("dateOfBirth"));
         this.sex = bundle.getString("sex");
         this.address = bundle.getString("address");
         this.status = bundle.getString("status");
@@ -120,7 +124,7 @@ public class User implements Parcelable {
         this.password = password;
     }
 
-    public void setDateOfBirth(String date_of_birth) {
+    public void setDateOfBirth(Date date_of_birth) {
         this.dateOfBirth = date_of_birth;
     }
 
@@ -156,8 +160,14 @@ public class User implements Parcelable {
         return password;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public String getFormattedDateOfBirt() {
+        Locale local = new Locale("ru","RU");
+        DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, local);
+        return df.format(dateOfBirth);
     }
 
     public String getSex() {
@@ -198,13 +208,6 @@ public class User implements Parcelable {
         }
     }
 
-    public void editDateOfBirth(String value) {
-        this.dateOfBirth = this.dateOfBirth.replace('T', ' ');
-        this.dateOfBirth = this.dateOfBirth.replace('Z', ' ');
-        if (!value.equals("")) {
-           // this.dateOfBirth = value;
-        }
-    }
 
     public void editSex(String value) {
         if (!value.equals("")) {

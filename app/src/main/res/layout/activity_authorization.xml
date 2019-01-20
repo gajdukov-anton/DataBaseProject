@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBackground"
-    tools:context=".activity.Authorization">
+    tools:context=".activity.user.Authorization">
 
 
     <android.support.design.widget.TextInputLayout

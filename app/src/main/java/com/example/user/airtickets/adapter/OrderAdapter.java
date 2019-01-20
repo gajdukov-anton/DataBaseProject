@@ -36,7 +36,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
 
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.order_cardview, parent, false);
+        View view = inflater.inflate(R.layout.cardview_order, parent, false);
         return new ViewHolder(view);
     }
 
@@ -45,7 +45,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         final Order order = orders.get(position);
         holder.cardNumberInfoView.setText(String.valueOf(order.getCardNumber()));
         holder.priceInfoCardview.setText(String.valueOf(order.getBookingPrice()));
-        holder.dateInfoView.setText(order.getDate());
+        holder.dateInfoView.setText(order.getDate().substring(0, order.getDate().length() - 5));
         holder.statusInfoView.setText(order.getStatus());
         if (order.getStatus().equals("booked")) {
             holder.attemptButton.setOnClickListener(new View.OnClickListener() {

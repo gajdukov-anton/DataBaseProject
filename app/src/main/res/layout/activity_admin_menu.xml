@@ -1,55 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AdminMenuActivity">
+    android:fillViewport="true">
 
-    <Button
-        android:id="@+id/mainActivityButton"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorSignInButton"
+        android:layout_height="match_parent"
+        tools:context=".activity.admin.AdminMenuActivity">
 
-        android:onClick="startMainActivity"
-        android:text="@string/allFlights"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/mainActivityButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
 
-    <Button
-        android:id="@+id/createFlightButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorSignInButton"
-        android:onClick="startCreateFlightActivity"
+            android:onClick="startMainActivity"
+            android:text="ПОЛЬЗОВАТЕЛЬСКИЙ ФУНКЦИОНАЛ"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        android:text="@string/createFlight"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainActivityButton" />
+        <Button
+            android:id="@+id/createFlightButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startCreateFlight"
 
-    <Button
-        android:id="@+id/createTicketButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:background="@color/colorSignInButton"
-        android:onClick="startCreateTicketActivity"
+            android:text="@string/createFlight"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainActivityButton" />
 
-        android:text="@string/createTicket"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createFlightButton" />
+        <Button
+            android:id="@+id/createTicketButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startCreateTicket"
+
+            android:text="@string/createTicket"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createFlightButton" />
+
+        <Button
+            android:id="@+id/deleteFlightButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startDeleteFlight"
+
+            android:text="УДАЛИТЬ РЕЙС"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createTicketButton" />
+
+        <Button
+            android:id="@+id/deleteTicketButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startDeleteTicket"
+
+            android:text="УДАЛИТЬ БИЛЕТ"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deleteFlightButton" />
+
+        <Button
+            android:id="@+id/showAllTicketsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startAllFlightsActivity"
+
+            android:text="ПОКАЗАТЬ ВСЕ БИЛЕТЫ"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deleteTicketButton" />
+
+        <Button
+            android:id="@+id/addAirportButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startAddAirportActivity"
+
+            android:text="ДОБАВИТЬ АЭРОПОРТ"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/showAllTicketsButton" />
+
+        <Button
+            android:id="@+id/addClassButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startAddClassActivity"
+
+            android:text="ДОБАВИТЬ КЛАСС"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addAirportButton" />
+
+        <Button
+            android:id="@+id/addCompanyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startAddCompanyActivity"
+
+            android:text="ДОБАВИТЬ КОМПАНИЮ"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addClassButton" />
+
+        <Button
+            android:id="@+id/addPlaneButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="startAddPlaneActivity"
+
+            android:text="ДОБАВИТЬ САМОЛЁТ"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addCompanyButton" />
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

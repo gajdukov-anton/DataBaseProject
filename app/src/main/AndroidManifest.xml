@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.Authorization"
+            android:name=".activity.user.Authorization"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,24 +22,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.RegistrationActivity"
+            android:name=".activity.user.RegistrationActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.user.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.BookingActivity" />
-        <activity android:name=".activity.FlightActivity" />
-        <activity android:name=".activity.ProfileActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.AllOrdersActivity" />
-        <activity android:name=".activity.AdminMenuActivity" />
-        <activity android:name=".activity.CreateFlightActivity" />
-        <activity android:name=".activity.ChooseFlightActivity" />
+        <activity android:name=".activity.user.BookingActivity" />
+        <activity android:name=".activity.user.FlightActivity" />
+        <activity android:name=".activity.user.ProfileActivity" />
+        <activity android:name=".activity.user.EditProfileActivity" />
+        <activity android:name=".activity.user.AllOrdersActivity" />
+        <activity android:name=".activity.admin.AdminMenuActivity" />
+        <activity android:name=".activity.admin.CreateFlightActivity" />
+        <activity android:name=".activity.admin.ChooseFlightActivity" />
         <activity
-            android:name=".activity.CreateTicketActivity"
+            android:name=".activity.admin.CreateTicketActivity"
             android:label="@string/title_activity_create_ticket"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.admin.DeleteFlightActivity" />
+        <activity android:name=".activity.admin.DeleteTicketActivity" />
+        <activity android:name=".activity.admin.AllFlightsActivity" />
+        <activity android:name=".activity.admin.AllTicketActivity" />
+        <activity android:name=".activity.admin.AddClassActivity" />
+        <activity android:name=".activity.admin.AddPlaneActivity" />
+        <activity android:name=".activity.admin.AddAirportActivity" />
+        <activity android:name=".activity.admin.AddCompanyActivity"></activity>
     </application>
 
 </manifest>

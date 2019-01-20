@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Flight implements Parcelable {
     protected String pointOfDeparture;
     protected String pointOfDestination;
-    protected String timeOfDeparture;
-    protected String timeOfDestination;
+    protected Date timeOfDeparture;
+    protected Date timeOfDestination;
     protected String companyName;
     protected String timeInTravel;
     protected int image;
@@ -36,8 +40,8 @@ public class Flight implements Parcelable {
         Bundle bundle = new Bundle();
         bundle.putString("pointOfDeparture", pointOfDeparture);
         bundle.putString("pointOfDestination", pointOfDestination);
-        bundle.putString("timeOfDeparture", timeOfDeparture);
-        bundle.putString("timeOfDestination", timeOfDestination);
+        bundle.putLong("timeOfDeparture", timeOfDeparture.getTime());
+        bundle.putLong("timeOfDestination", timeOfDestination.getTime());
         bundle.putString("companyName", companyName);
         bundle.putString("timeInTravel", timeInTravel);
         parcel.writeBundle(bundle);
@@ -57,8 +61,8 @@ public class Flight implements Parcelable {
         Bundle bundle = parcel.readBundle();
         this.pointOfDeparture = bundle.getString("pointOfDeparture");
         this.pointOfDestination = bundle.getString("pointOfDestination");
-        this.timeOfDeparture = bundle.getString("timeOfDeparture");
-        this.timeOfDestination = bundle.getString("timeOfDestination");
+        this.timeOfDeparture = new Date(bundle.getLong("timeOfDeparture"));
+        this.timeOfDestination = new Date(bundle.getLong("timeOfDestination"));
         this.companyName = bundle.getString("companyName");
         this.timeInTravel = bundle.getString("timeInTravel");
     }
@@ -75,12 +79,24 @@ public class Flight implements Parcelable {
         return pointOfDestination;
     }
 
-    public String getTimeOfDeparture() {
+    public Date getTimeOfDeparture() {
         return timeOfDeparture;
     }
 
-    public String getTimeOfDestination() {
+    public String getFormattedTimeOfDeparture() {
+        Locale local = new Locale("ru","RU");
+        DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, local);
+        return df.format(timeOfDeparture);
+    }
+
+    public Date getTimeOfDestination() {
         return timeOfDestination;
+    }
+
+    public String getFormattedTimeOfDestination() {
+        Locale local = new Locale("ru","RU");
+        DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, local);
+        return df.format(timeOfDestination);
     }
 
     public String getCompanyName() {
@@ -125,11 +141,11 @@ public class Flight implements Parcelable {
         this.pointOfDestination = pointOfDestination;
     }
 
-    public void setTimeOfDeparture(String timeOfDeparture) {
+    public void setTimeOfDeparture(Date timeOfDeparture) {
         this.timeOfDeparture = timeOfDeparture;
     }
 
-    public void setTimeOfDestination(String timeOfDestination) {
+    public void setTimeOfDestination(Date timeOfDestination) {
         this.timeOfDestination = timeOfDestination;
     }
 

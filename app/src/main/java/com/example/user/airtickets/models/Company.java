@@ -2,11 +2,15 @@ package com.example.user.airtickets.models;
 
 public class Company {
     private int idCompany;
-    private double rating;
-    private String name;
+    private double rating = -1.0;
+    private String name = "";
 
     public Company() {
 
+    }
+
+    public boolean isReadyToUpload() {
+        return !name.equals("") && rating != -1.0;
     }
 
     public String getName() {

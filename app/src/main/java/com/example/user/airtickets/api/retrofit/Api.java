@@ -84,4 +84,28 @@ public interface Api {
 
     @GET("/companies")
     Call<List<Company>> getAllCompaniesFromServer();
+
+    @FormUrlEncoded
+    @POST("delete/flight")
+    Call<ResponseFromServer> deleteFlight(@Field("idFlight") String idFlight);
+
+    @FormUrlEncoded
+    @POST("delete/ticket")
+    Call<ResponseFromServer> deleteTicket(@Field("idTicket") String idTicket);
+
+    @FormUrlEncoded
+    @POST("/admin/get-all-tickets")
+    Call<List<Ticket>> getAllTicketForFlight(@Field("login") String login, @Field("password") String password, @Field("idFlight") String idFlight);
+
+    @POST("/class/add")
+    Call<ResponseFromServer> addClass(@Body Class newClass);
+
+    @POST("/airport/add")
+    Call<ResponseFromServer> addAirport(@Body Airport airport);
+
+    @POST("/plane/add")
+    Call<ResponseFromServer> addPlane(@Body Plane plane);
+
+    @POST("/company/add")
+    Call<ResponseFromServer> addCompany(@Body Company company);
 }

@@ -14,14 +14,14 @@ import com.example.user.airtickets.models.Ticket;
 
 import java.util.List;
 
-public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
+public class TicketForBookingAdapter extends RecyclerView.Adapter<TicketForBookingAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private List<Ticket> tickets;
-    private TicketAdapter.Callback callback;
+    private TicketForBookingAdapter.Callback callback;
     private Flight flight;
 
 
-    public TicketAdapter(Context context, List<Ticket> tickets, Flight flight) {
+    public TicketForBookingAdapter(Context context, List<Ticket> tickets, Flight flight) {
         this.tickets = tickets;
         this.inflater = LayoutInflater.from(context);
         this.flight = flight;
@@ -32,24 +32,24 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     }
 
-    public void setCallback(TicketAdapter.Callback callback) {
+    public void setCallback(TicketForBookingAdapter.Callback callback) {
         this.callback = callback;
     }
 
 
     @Override
-    public TicketAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.ticket_cardview, parent, false); ////!!!!
+    public TicketForBookingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.cardview_ticket, parent, false); ////!!!!
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TicketAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(TicketForBookingAdapter.ViewHolder holder, final int position) {
         Ticket ticket = tickets.get(position);
         ticket.setPointOfDeparture(flight.getPointOfDeparture());
         ticket.setPointOfDestination(flight.getPointOfDestination());
        // final Ticket ticket = tempTicket;
-        holder.numberTicketInfoView.setText(String.valueOf(ticket.getIdTicket()));
+        holder.numberTicketInfoView.setText(String.valueOf(ticket.getPlaceNumber()));
         holder.classTicketInfoView.setText(ticket.getName());
         holder.priceTicketInfoCardview.setText(String.valueOf(ticket.getPrice()));
         holder.bookButton.setOnClickListener(new View.OnClickListener() {

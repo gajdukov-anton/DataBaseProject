@@ -1,4 +1,4 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.user;
 
 import android.content.Context;
 import android.content.Intent;
@@ -93,7 +93,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void postEditUserToServer(User user) {
         ServerApi serverApi = ServerApi.getInstance();
-        Toast.makeText(EditProfileActivity.this, "Besit", Toast.LENGTH_SHORT).show();
         ServerApi.EditUserListener listener = new ServerApi.EditUserListener() {
             @Override
             public void onUploadEditUser(ResponseFromServer responseFromServer) {

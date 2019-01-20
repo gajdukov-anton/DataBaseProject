@@ -1,158 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.CreateFlightActivity">
+    android:fillViewport="true">
 
-    <!--<EditText
-        android:id="@+id/idPlaneEditText"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="40dp"
-        android:hint="id_plane"
-        android:inputType="number"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"/>
-
-    <EditText
-        android:id="@+id/idAirportEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="id_airport"
-
-        app:layout_constraintTop_toBottomOf="@id/idPlaneEditText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>-->
-
-    <TextView
-        android:id="@+id/idPlainTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Самолёт рейса: "
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-    <Spinner
-        android:id="@+id/idPlaneSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/idPlainTextView"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp">
-    </Spinner>
-
-    <TextView
-        android:id="@+id/idAirportTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Аэропорт рейса: "
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/idPlaneSpinner"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-    <Spinner
-        android:id="@+id/idAirportSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/idAirportTextView"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp">
-
-    </Spinner>
-
-    <EditText
-        android:id="@+id/pointOfDepEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="pointOfDeparture"
-
-        app:layout_constraintTop_toBottomOf="@id/idAirportSpinner"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-    <EditText
-        android:id="@+id/pointOfDestEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="pointOfDestination"
-
-        app:layout_constraintTop_toBottomOf="@id/pointOfDepEditText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-    <EditText
-        android:id="@+id/timeOfDepEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:hint="timeOfDeparture"
-
-        app:layout_constraintTop_toBottomOf="@id/pointOfDestEditText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-    <EditText
-        android:id="@+id/timeOfDestEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:hint="timeOfDestination"
-
-        app:layout_constraintTop_toBottomOf="@id/timeOfDepEditText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_height="match_parent"
+        tools:context=".activity.admin.CreateFlightActivity">
 
 
-    <EditText
-        android:id="@+id/descriptionEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="description"
+        <TextView
+            android:id="@+id/idPlainEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="Самолёт рейса: "
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        app:layout_constraintTop_toBottomOf="@id/timeOfDestEditText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
+        <Spinner
+            android:id="@+id/idPlaneSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/idPlainEditText" />
 
-    <Button
-        android:id="@+id/SigInButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@color/colorSignInButton"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:onClick="createNewFlight"
-        android:text="@string/postButton"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        <TextView
+            android:id="@+id/idAirportEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="Аэропорт рейса: "
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/idPlaneSpinner" />
 
-</android.support.constraint.ConstraintLayout>
+        <Spinner
+            android:id="@+id/idAirportSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/idAirportEditText">
+
+        </Spinner>
+
+        <TextView
+            android:id="@+id/pointOfDepEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+
+            android:layout_marginEnd="10dp"
+            android:text="Город отправления: "
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/idAirportSpinner" />
+
+        <!--  <TextView
+              android:id="@+id/namePointOfDestEditText"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_marginTop="10dp"
+
+              android:layout_marginEnd="10dp"
+              android:text="Город прибытия: "
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/pointOfDepEditText" />
+
+          <Spinner
+              android:id="@+id/namePointOfDestSpinner"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_marginEnd="10dp"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/namePointOfDestEditText">
+
+          </Spinner>-->
+
+        <EditText
+            android:id="@+id/pointOfDestEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Город прибытия"
+            android:inputType="text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pointOfDepEditText" />
+
+        <LinearLayout
+            android:id="@+id/setDateOfDep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pointOfDestEditText">
+
+            <TextView
+                android:id="@+id/setDataOfDepTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="Дата отлёта:" />
+
+            <Button
+                android:id="@+id/setDateOfDepButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorSignInButton"
+                android:onClick="setDateOfDep"
+                android:text="Задать дату отлёта"
+                app:layout_constraintLeft_toLeftOf="parent" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/setTimeOfDep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setDateOfDep">
+
+            <TextView
+                android:id="@+id/setTimeOfDepTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="Время отлёта:" />
+
+            <Button
+                android:id="@+id/setTimeOfDepButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorSignInButton"
+                android:onClick="setTimeOfDep"
+                android:text="Задать время отлёта"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setDateOfDep" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/setDateOfDest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setTimeOfDep">
+
+            <TextView
+                android:id="@+id/setDataOfDestTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="Дата прилёта:" />
+
+            <Button
+                android:id="@+id/setDateOfDestButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorSignInButton"
+                android:onClick="setDateOfDest"
+                android:text="Задать дату прилёта"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setTimeOfDepButton" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/setTimeOfDest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setDateOfDest">
+
+            <TextView
+                android:id="@+id/setTimeOfDestTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="Время прилёта:" />
+
+            <Button
+                android:id="@+id/setTimeOfDestButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorSignInButton"
+                android:onClick="setTimeOfDest"
+                android:text="Задать время прилёта"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setDateOfDestButton" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/SigInButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorSignInButton"
+            android:onClick="createNewFlight"
+            android:text="@string/postButton"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

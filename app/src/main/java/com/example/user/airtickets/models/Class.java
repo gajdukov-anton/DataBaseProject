@@ -1,12 +1,16 @@
 package com.example.user.airtickets.models;
 
 public class Class {
-    private String description;
-    private String name;
+    private String description = "";
+    private String name = "";
     private int idClass;
 
     public Class() {
 
+    }
+
+    public boolean isReadyToUpload() {
+        return !name.equals("") && !description.equals("");
     }
 
     public void setIdClass(int idClass) {

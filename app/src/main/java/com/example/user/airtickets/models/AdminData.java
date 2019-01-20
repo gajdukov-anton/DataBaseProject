@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminData {
-    private List<Class> classList ;
-    private List<Airport> airportList;
-    private List<Company> companyList;
-    private List<Plane> planeList;
+    private List<Class> classList = new ArrayList<>();
+    private List<Airport> airportList = new ArrayList<>();
+    private List<Company> companyList = new ArrayList<>();
+    private List<Plane> planeList = new ArrayList<>();
 
     private static class AdminDataHolder {
         private final static AdminData instance = new AdminData();
@@ -40,6 +40,15 @@ public class AdminData {
 
     public List<Plane> getPlaneList() {
         return planeList;
+    }
+
+    public String getCompanyNameByPlane(Plane plane) {
+        for (Company company : companyList) {
+            if (company.getIdCompany() == plane.getIdCompany()) {
+                return company.getName();
+            }
+        }
+        return "";
     }
 
     private void downloadClassesFromServer() {
@@ -110,4 +119,42 @@ public class AdminData {
         serverApi.getAllPlanes();
     }
 
+    public boolean isAirportExist(Airport airport) {
+        for (Airport currentAirport : airportList) {
+            if (currentAirport.getLocation().toLowerCase().equals(airport.getLocation().toLowerCase())
+                    && currentAirport.getName().toLowerCase().equals(airport.getName().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isClassExist(Class newClass) {
+        for (Class currentClass : classList) {
+            if (currentClass.getDescription().toLowerCase().equals(newClass.getDescription().toLowerCase())
+                    && currentClass.getName().toLowerCase().equals(newClass.getName().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isCompanyExist(Company company) {
+        for (Company currentCompany : companyList) {
+            if (currentCompany.getName().toLowerCase().equals(company.getName().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPlaneExist(Plane plane) {
+        for (Plane currentPlane : planeList) {
+            if (currentPlane.getType().toLowerCase().equals(plane.getType().toLowerCase()) &&
+                    currentPlane.getIdCompany() == plane.getIdCompany()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

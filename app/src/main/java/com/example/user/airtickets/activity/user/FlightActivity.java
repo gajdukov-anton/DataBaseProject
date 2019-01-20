@@ -1,5 +1,6 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.user;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -9,13 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
-import com.example.user.airtickets.adapter.TicketAdapter;
+import com.example.user.airtickets.adapter.TicketForBookingAdapter;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.fragment.BookingDialogFragment;
 import com.example.user.airtickets.models.Flight;
@@ -23,8 +25,12 @@ import com.example.user.airtickets.models.ResponseFromServer;
 import com.example.user.airtickets.models.Ticket;
 import com.example.user.airtickets.models.UserData;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FlightActivity extends AppCompatActivity implements BookingDialogFragment.BookingDialogListener {
 
@@ -34,6 +40,10 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
     private Flight flight;
     private int idFlight;
     private boolean isAvailable;
+    private Calendar calendar = Calendar.getInstance();
+    private Date dateOfBirth;
+    private DatePickerDialog.OnDateSetListener dateListener;
+    private BookingDialogFragment dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +54,6 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         displayFlightInformation();
         createRecyclerViewWithTickets(idFlight);
         createBackButton();
-        Toast.makeText(this, String.valueOf(UserData.bookedTickets.size()), Toast.LENGTH_SHORT).show();
     }
 
     private void getDataFromIntent() {
@@ -62,8 +71,8 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         setStringToTextView(R.id.pointOfDepartureFlightInformation, "Место отправления: " + flight.getPointOfDeparture());
         setStringToTextView(R.id.pointOfDestinationFlightInformation, "Место прибытия: " + flight.getPointOfDestination());
         setStringToTextView(R.id.airportFlightInformation, "Данные о компании: Компания");
-        setStringToTextView(R.id.timeOfDepartureFlightInformation, "Время отправления: " + flight.getTimeOfDeparture());
-        setStringToTextView(R.id.timeOfDestinationFlightInformation, "Время прибытия: " + flight.getTimeOfDestination());
+        setStringToTextView(R.id.timeOfDepartureFlightInformation,  "Время отправления: " + flight.getFormattedTimeOfDeparture());
+        setStringToTextView(R.id.timeOfDestinationFlightInformation,  "Время прибытия: " + flight.getFormattedTimeOfDestination());
     }
 
     private void setStringToTextView(int id, String value) {
@@ -95,6 +104,11 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
             public void onDownloadedTickets(List<Ticket> tickets) {
                 createRecyclerView(tickets);
             }
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(FlightActivity.this, "Билеты отсутсвуют", Toast.LENGTH_SHORT).show();
+                createRecyclerView(new ArrayList<Ticket>());
+            }
         };
         serverApi.setDownloadTicketsListener(listener);
         serverApi.downloadTickets(this, idFlight);
@@ -106,8 +120,8 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
 
-        TicketAdapter adapter = new TicketAdapter(this, this.tickets, flight);
-        TicketAdapter.Callback adapterListener = new TicketAdapter.Callback() {
+        TicketForBookingAdapter adapter = new TicketForBookingAdapter(this, this.tickets, flight);
+        TicketForBookingAdapter.Callback adapterListener = new TicketForBookingAdapter.Callback() {
             @Override
             public void onButtonClick(int position) {
                // createDialogFragment(position);
@@ -120,7 +134,7 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
 
     public void createDialogFragment(int position) {
         this.choosenTicket = position;
-        BookingDialogFragment dialog = new BookingDialogFragment();
+        dialog = new BookingDialogFragment();
         dialog.show(getSupportFragmentManager(), "custom");
     }
 
@@ -145,19 +159,82 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         return treatmentTickets;
     }
 
+
+    public void setDateOfBirth(View v) {
+        dateListener = new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                dateOfBirth = calendar.getTime();
+                Locale local = new Locale("ru","RU");
+                DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, local);
+                setTextOnDialogTextView(R.id.setDataOfBirthTextView, "Дата рождения: " + df.format(calendar.getTime()));
+            }
+
+        };
+        new DatePickerDialog(FlightActivity.this, dateListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
+    private void setTextOnDialogTextView(int id, String value) {
+        TextView textView = (TextView) dialog.getDialog().findViewById(id);
+        textView.setText(value);
+    }
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText dialogName = dialog.getDialog().findViewById(R.id.dialog_name);
         EditText dialogSecondName = dialog.getDialog().findViewById(R.id.dialog_second_name);
-        EditText dialogDate = dialog.getDialog().findViewById(R.id.dialog_date_of_birth);
-        bookedTickets.add(tickets.get(choosenTicket));
-        bookedTickets.get(bookedTickets.size() - 1).setFirstName(dialogName.getText().toString());
-        bookedTickets.get(bookedTickets.size() - 1).setLastName(dialogSecondName.getText().toString());
-        bookedTickets.get(bookedTickets.size() - 1).setSex(getSexFromRadioButton(dialog.getDialog().findViewById(R.id.male),
-                dialog.getDialog().findViewById(R.id.female)));
-        bookedTickets.get(bookedTickets.size() - 1).setDateOfBirth(dialogDate.getText().toString());
-        UserData.bookedTickets.add(tickets.get(choosenTicket));
-        createRecyclerView(tickets);
+        String name = dialogName.getText().toString();
+        String secondName = dialogSecondName.getText().toString();
+        String sex = getSexFromRadioButton(dialog.getDialog().findViewById(R.id.male), dialog.getDialog().findViewById(R.id.female));
+        if (isReadyToBook(dialog)) {
+            bookedTickets.add(tickets.get(choosenTicket));
+            bookedTickets.get(bookedTickets.size() - 1).setFirstName(name);
+            bookedTickets.get(bookedTickets.size() - 1).setLastName(secondName);
+            bookedTickets.get(bookedTickets.size() - 1).setSex(sex);
+            bookedTickets.get(bookedTickets.size() - 1).setDateOfBirth(dateOfBirth.toString());
+            UserData.bookedTickets.add(tickets.get(choosenTicket));
+            createRecyclerView(tickets);
+        } else {
+         //   createDialogFragment(choosenTicket);
+         //   setPreviousDataOnDialogFragment(this.dialog, name, secondName, sex, dateOfBirth);
+        }
+    }
+
+    private boolean isReadyToBook(DialogFragment dialogFragment) {
+        EditText dialogName = dialogFragment.getDialog().findViewById(R.id.dialog_name);
+        EditText dialogSecondName = dialogFragment.getDialog().findViewById(R.id.dialog_second_name);
+        if (dialogName.getText().toString().equals("")) {
+            Toast.makeText(this, "Укажите имя", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (dialogSecondName.getText().toString().equals("")) {
+            Toast.makeText(this, "Укажите фамилию", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (dateOfBirth == null) {
+            Toast.makeText(this, "Укажите дату рождения", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void setPreviousDataOnDialogFragment(DialogFragment dialogFragment, String name, String secondName, String sex, Date dateOfBirth) {
+        EditText dialogName = dialogFragment.getDialog().findViewById(R.id.dialog_name);
+        EditText dialogSecondName = dialogFragment.getDialog().findViewById(R.id.dialog_second_name);
+        TextView dateOfBirthView = dialogFragment.getDialog().findViewById(R.id.setDataOfBirthTextView);
+        dialogName.setText(name);
+        dialogSecondName.setText(secondName);
+        setValueToSexRadioButton(dialogFragment, sex);
+        if (dateOfBirth != null) {
+            Locale local = new Locale("ru","RU");
+            DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, local);
+            dateOfBirthView.setText("Дата рождения: " + df.format(dateOfBirth));
+        }
     }
 
     private void checkStatusTicket(int id, final int position) {
@@ -167,7 +244,6 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
             public void onSuccessful(ResponseFromServer responseFromServer) {
                 if (responseFromServer.status.equals("not_booked")) {
                     createDialogFragment(position);
-                    Toast.makeText(FlightActivity.this, responseFromServer.status, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(FlightActivity.this, responseFromServer.status, Toast.LENGTH_SHORT).show();
                 }
@@ -180,6 +256,16 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
         };
         serverApi.setCheckStatusTicketListener(listener);
         serverApi.checkStatusTicket(id);
+    }
+
+    private void setValueToSexRadioButton(DialogFragment dialogFragment, String value) {
+        if (value.equals("male")) {
+            RadioButton button = (RadioButton) dialogFragment.getDialog().findViewById(R.id.male);
+            button.setChecked(true);
+        } else if (value.equals("female")) {
+            RadioButton button = (RadioButton) dialogFragment.getDialog().findViewById(R.id.female);
+            button.setChecked(true);
+        }
     }
 
     private String getSexFromRadioButton(View viewMale, View viewFemale) {

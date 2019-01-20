@@ -14,6 +14,8 @@ public class BookingDialogFragment extends DialogFragment {
 
     public BookingDialogListener mListener;
 
+
+
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -26,9 +28,11 @@ public class BookingDialogFragment extends DialogFragment {
     }
 
     public interface BookingDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
     }
+
+
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -52,4 +56,5 @@ public class BookingDialogFragment extends DialogFragment {
                 })
                 .create();
     }
+
 }

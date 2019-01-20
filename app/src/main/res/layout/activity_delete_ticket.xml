@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.user.AllOrdersActivity">
+    tools:context=".activity.admin.DeleteTicketActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/listOrders"
+        android:id="@+id/listTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

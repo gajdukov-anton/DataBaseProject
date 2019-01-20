@@ -2,11 +2,14 @@ package com.example.user.airtickets.models;
 
 public class Airport {
     private int idAirport;
-    private String name;
-    private String location;
+    private String name = "";
+    private String location = "";
 
     public Airport() {
+    }
 
+    public boolean isReadyToUpload() {
+        return !name.equals("") && !location.equals("");
     }
 
     public void setName(String name) {

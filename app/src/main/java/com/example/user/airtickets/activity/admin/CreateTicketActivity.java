@@ -1,4 +1,4 @@
-package com.example.user.airtickets.activity;
+package com.example.user.airtickets.activity.admin;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -13,15 +13,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.airtickets.R;
 import com.example.user.airtickets.api.retrofit.ServerApi;
 import com.example.user.airtickets.models.AdminData;
 import com.example.user.airtickets.models.Class;
-import com.example.user.airtickets.models.FlightForUpload;
 import com.example.user.airtickets.models.ResponseFromServer;
-import com.example.user.airtickets.models.Ticket;
 import com.example.user.airtickets.models.TicketForUpload;
 
 import java.util.ArrayList;
@@ -31,8 +30,9 @@ public class CreateTicketActivity extends AppCompatActivity {
 
     private boolean isButtonPassed = false;
     private int flightId;
-    private int currentIdClass;
     private List<String> idClassesList = getIdClassesList(AdminData.getInstance().getClassList());
+    private int currentIdClass = Integer.valueOf(idClassesList.get(0));;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class CreateTicketActivity extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
         flightId = arguments.getInt("idFlight");
         createSpinner();
+        updateTextView(R.id.idClassesTextView, "Класс билета: " + AdminData.getInstance().getClassList().get(0).getName());
     }
 
     private List<String> getIdClassesList(List<Class> classes) {
@@ -62,6 +63,7 @@ public class CreateTicketActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                currentIdClass = Integer.valueOf(idClassesList.get(position));
+               updateTextView(R.id.idClassesTextView, "Класс билета: " + AdminData.getInstance().getClassList().get(position).getName());
             }
 
             @Override
@@ -69,6 +71,11 @@ public class CreateTicketActivity extends AppCompatActivity {
             }
         });
         currentIdClass = Integer.valueOf(idClassesList.get(0));
+    }
+
+    private void updateTextView(int id, String text) {
+        TextView textView = (TextView) findViewById(id);
+        textView.setText(text);
     }
 
     private void createBackButton() {
@@ -118,7 +125,7 @@ public class CreateTicketActivity extends AppCompatActivity {
             public void onUploadNewTicketListener(ResponseFromServer responseFromServer) {
                 Toast.makeText(CreateTicketActivity.this, responseFromServer.status, Toast.LENGTH_SHORT).show();
                 isButtonPassed = false;
-                finish();
+                //finish();
             }
 
             @Override
