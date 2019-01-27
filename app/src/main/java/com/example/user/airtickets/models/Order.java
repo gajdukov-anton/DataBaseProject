@@ -1,8 +1,16 @@
 package com.example.user.airtickets.models;
 
-public class Order {
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class Order{
     private int idBooking;
-    private String date;
+    private Date date;
     private String idUser;
     private String status;
     private int cardNumber;
@@ -12,12 +20,14 @@ public class Order {
 
     }
 
-    public Order(String date, String status, int cardNumber, double bookingPrice) {
+    public Order(Date date, String status, int cardNumber, double bookingPrice) {
         this.cardNumber = cardNumber;
         this.date = date;
         this.status = status;
         this.bookingPrice = bookingPrice;
     }
+
+
 
     public void setCardNumber(int cardNumber) {
         this.cardNumber = cardNumber;
@@ -31,7 +41,7 @@ public class Order {
         this.status = status;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -44,7 +54,9 @@ public class Order {
     }
 
     public String getDate() {
-        return date;
+        Locale local = new Locale("ru","RU");
+        DateFormat df = DateFormat.getDateInstance(DateFormat.DEFAULT, local);
+        return df.format(date);
     }
 
     public int getIdBooking() {

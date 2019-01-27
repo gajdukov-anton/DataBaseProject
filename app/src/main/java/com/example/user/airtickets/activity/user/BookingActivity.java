@@ -35,7 +35,6 @@ public class BookingActivity extends AppCompatActivity implements PostBookingDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
-
         Bundle bundle = getIntent().getExtras();
         tickets = bundle.getParcelableArrayList("tickets");
         booking.setTickets(tickets);
