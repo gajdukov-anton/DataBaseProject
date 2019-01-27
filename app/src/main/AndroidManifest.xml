@@ -47,7 +47,8 @@
         <activity android:name=".activity.admin.AddClassActivity" />
         <activity android:name=".activity.admin.AddPlaneActivity" />
         <activity android:name=".activity.admin.AddAirportActivity" />
-        <activity android:name=".activity.admin.AddCompanyActivity"></activity>
+        <activity android:name=".activity.admin.AddCompanyActivity" />
+        <activity android:name=".activity.user.HistoryActivity"></activity>
     </application>
 
 </manifest>

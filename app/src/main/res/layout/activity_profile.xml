@@ -131,19 +131,33 @@
 
     <Button
         android:id="@+id/editProfileButton"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
 
+        android:layout_marginBottom="8dp"
         android:background="@color/colorSignInButton"
         android:onClick="loadEditProfileActivity"
         android:padding="10dp"
         android:text="@string/editProfileButton"
         android:textColor="@color/colorWhite"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="5dp"
+        android:background="@color/colorSignInButton"
+        android:padding="10dp"
+        android:text="ИСТОРИЯ"
+        android:onClick="startHistoryActivity"
+
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toRightOf="@+id/editProfileButton" />
 
 </android.support.constraint.ConstraintLayout>

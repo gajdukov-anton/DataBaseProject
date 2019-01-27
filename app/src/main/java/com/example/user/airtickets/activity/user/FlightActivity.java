@@ -220,6 +220,10 @@ public class FlightActivity extends AppCompatActivity implements BookingDialogFr
             Toast.makeText(this, "Укажите дату рождения", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if (dateOfBirth.after(new Date())) {
+            Toast.makeText(this, "Дата рождения не может быть больше текущей", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 

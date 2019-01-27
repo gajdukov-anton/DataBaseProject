@@ -75,6 +75,10 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    public void startHistoryActivity(View view) {
+        Intent intent = new Intent(this, HistoryActivity.class);
+        startActivity(intent);
+    }
     private void downloadImageToImageView(int id, User user) {
         ImageView imageView = (ImageView) findViewById(id);
         if (user.getUrlImage() == null) {

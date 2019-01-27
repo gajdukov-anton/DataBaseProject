@@ -450,7 +450,7 @@ public class ServerApi {
     }
 
 
-    public void downloadOrdersFromServer(final AllOrdersActivity allOrdersActivity, final UserData userData) {
+    public void downloadOrdersFromServer(final UserData userData) {
         Call<List<Order>> call = api.downloadOrders(userData.login, userData.password);
         call.enqueue(new Callback<List<Order>>() {
             @Override
